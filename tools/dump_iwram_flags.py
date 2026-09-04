@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dump EWRAM tail (IRQ flag area) after N seconds, native vs interp."""
+"""Dump IWRAM top (IRQ flag area) after N seconds, native vs interp."""
 
 from __future__ import annotations
 
