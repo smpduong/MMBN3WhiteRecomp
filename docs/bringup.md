@@ -81,6 +81,17 @@ healed cache reused — boot path fully static. Only the 2 held IWRAM probes
 recur. Misses now come only from deeper gameplay past title (needs longer
 campaign runs + real input exploration).
 
+## R11 — jump-table sizing attempt: cluster is callbacks, not a switch
+The R3 "30 consecutive" cluster (0x21F9C–0x221B4) is NOT one switch: no
+absolute refs; odd (Thumb-bit) refs come from the init table (0x32C) and
+small local runs. Two verified runs (T1 @0x21FB8×3, T2 @0x22050×4, all
+PUSH-prologue targets) looked sizeable, but T2's bytes overlap a live
+function's literal pool (0x2204A flows into 0x22050) — recompiler correctly
+rejects (`control-flow entries into data_range`). Reverted; per-case roots
+stand (boot fully static without tables). Lesson: frag "consecutive"
+grouping over-groups event-callback tables; verify target prologues AND
+check for enclosing-function overlap before sizing.
+
 ## Next (no upstream contact without express permission)
 1. Keep rolling the frontier (regen → build → 60s verify → merge).
 2. Size the 13+ jump-table regions into `[[jump_table]]` (table-base hunt).
