@@ -106,3 +106,21 @@ note = "R1: executed indirect/fall-through target, bridged x1"
 addr = 0x08132CE0
 mode = "thumb"
 note = "R1: hottest miss, bridged x29"
+
+# Round 2 (2026-09-04): 30s verbose boot. R1 roots covered (no repeats).
+# New ROM frontier: Thumb-mode entry into ARM function gf_afunc_0802B354
+# (interworking) and interior resume inside gf_tfunc_08001E70.
+# IWRAM misses (0x03005E00 arm, 0x03005FD0/0x030068BA thumb) are copied
+# runtime code — need [[code_copy]] with ROM source backing (capture via
+# oracle before admitting; NOT added as bare extra_func).
+
+[[extra_func]]
+addr = 0x0802B354
+mode = "thumb"
+note = "R2: Thumb interwork entry into ARM function, bridged live"
+
+[[extra_func]]
+addr = 0x08001E8E
+mode = "thumb"
+resume = true
+note = "R2: interior resume inside gf_tfunc_08001E70, bridged live"
