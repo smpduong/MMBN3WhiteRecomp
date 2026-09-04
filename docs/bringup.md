@@ -92,7 +92,32 @@ stand (boot fully static without tables). Lesson: frag "consecutive"
 grouping over-groups event-callback tables; verify target prologues AND
 check for enclosing-function overlap before sizing.
 
-## Next (no upstream contact without express permission)
+## R12 — title reached, input verified with screenshots (2026-09-04)
+Two operator traps found, both documented here so nobody re-pays them:
+1. `--tcp` starts the guest PAUSED (`RS_PAUSED`); all queries work but the
+   core never steps until `{"cmd":"continue"}`. Every pre-R12 TCP probe
+   (black screenshots, frozen VCOUNT, zero IWRAM) was a paused core, not a
+   freeze. Always `continue` first.
+2. `gba_recompile --bios` defaults `--out` to CWD-relative
+   `src/runtime/generated_bios` (see R5) — run it from the engine dir.
+With `continue`: DISPCNT shows all layers on, title renders
+(MEGAMAN BATTLE NETWORK 3 WHITE / PRESS START), Start tap advances to the
+NEW GAME menu (cursor visible). Screenshots: `tools/shot.py`; attended
+driver: `tools/boot_to_title.py`; scripted probe: `tools/playtest_probe.py`.
+Open-ended "stall at 62M cycles" was heal-bound slowness + paused-mode
+confusion compounded; `--frames` and continued sessions progress normally.
+
+## Backend status before playtesting (no upstream contact without permission)
+VERIFIED: native boot to title with graphics; TCP input advances title to menu;
+demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;
+IWRAM mixer + copy-2 static via code_copy.
+REMAINING:
+1. Host keyboard mapping in open-ended windowed play (only TCP input tested).
+2. Audible audio on a real device (unverifiable headless; APU modeled).
+3. SRAM save write-through on a real playthrough (path configured, unwatched).
+4. g_runtime_cycles sticks at 62191750 in open-ended exit reports (cosmetic).
+5. Coverage tail: failed=2 heals, 2 held IWRAM probes, unsized jump regions.
+
 1. Keep rolling the frontier (regen → build → 60s verify → merge).
 2. Size the 13+ jump-table regions into `[[jump_table]]` (table-base hunt).
 3. Resolve `failed=2..6` heal failures per round (likely jump interiors).
