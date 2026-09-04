@@ -48,13 +48,22 @@ target_include_directories(MMBN3WhiteRecomp PRIVATE
     "${GBARECOMP_ROOT}/src/runtime"
     "${GBARECOMP_ROOT}/src/debug")
 
-target_link_libraries(MMBN3WhiteRecomp PRIVATE
+if(APPLE)
+  # Apple ld has no --start-group; static libs have no circular refs here.
+  target_link_libraries(MMBN3WhiteRecomp PRIVATE
+    gbarecomp_runtime
+    gbarecomp_debug
+    gbarecomp_gba
+    gbarecomp_armv4t)
+else()
+  target_link_libraries(MMBN3WhiteRecomp PRIVATE
     "-Wl,--start-group"
     gbarecomp_runtime
     gbarecomp_debug
     gbarecomp_gba
     gbarecomp_armv4t
     "-Wl,--end-group")
+endif()
 
 target_compile_definitions(MMBN3WhiteRecomp PRIVATE
     GBARECOMP_DEFAULT_DEBUG_PORT=19863
