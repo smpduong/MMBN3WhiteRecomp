@@ -35,11 +35,33 @@ not the hardware model. Copies ARE live once boot progresses (IWRAM
 `0x030068xx` executes) — recapture `[[code_copy]]` sources after the
 native entry bug is fixed.
 
-## Next
-1. First-divergence native-vs-interp on the entry/crt0 path (`GBA_COSIM`
-   state-hash gates, or `runtime_trace`/`registers` at `0x08000000` in both
-   modes). Suspects: crt0 interworking/stack lowering, native IRQ re-entry
-   (cf. R0 depth-105), present-in-place frame resume.
-2. Upstream issue to `mstan/gbarecomp` with this repro (engine @ fork point,
-   game SHA1 `ff45038a…`, `skip_intro=false`, interp-renders/native-parks).
-3. Then: IWRAM `[[code_copy]]` capture + `0x08001CBA` jump-table sizing.
+## R5 — ROOT CAUSE: stray BIOS output dir, game linked empty stub (2026-09-04)
+The `gba_recompile --bios` run used a CWD-relative default `--out`, writing
+`bios_recompiled.cpp` to a stray `<selection>/src/` tree while the engine
+kept linking `bios_dispatch_stub.cpp` (empty table). All native BIOS
+execution was interpreter bridging; a bridge on the 0x138 exception path
+flipped R2 with no insn between fp records, latching the 0x344 poll (695002
+identical iterations at 2s and 60s) with blank PPU. Interp was unaffected.
+Fix (local only, no upstream): moved the 4 files into
+`gbarecomp/src/runtime/generated_bios/` (gitignored, BIOS-derived), deleted
+the stray tree, reconfigured (`-- BIOS recompiled output present — linking`,
+1.1→1.8MB). First boot after: video state identical to the interp oracle
+(`pal 674/1024 vram 26580/98304`, same cycles `62191750`), execution deep in
+cart `0x8133xxx`, idle elision active. Env-bisects (PRESENT_IN_PLACE=0,
+BIOS_HLE=1) had exonerated those paths beforehand.
+
+## R6/R7 — corpus rounds (496 → 1484 → 1572 funcs)
+- R6 (230-entry frag, 13 unsized jump regions admitted as roots):
+  `iwram_sound_mixer` code_copy (`0x03005E00 ← 0x08235F00`, 0x17AC; maximal
+  exact run) covering the x685089 IWRAM miss. misses 215→29, interp
+  106M→42M, native_calls 218K→329K.
+- R7 (+31, 2nd code_copy `0x0300416E ← 0x0813293A` 0x403; held sourceless
+  `0x03007AF0/0x03007B44` per policy): misses→4, interp→0.94M.
+- R8 frontier: 2 cart roots (`0x08134A18/24`); the 2 held recur (x6, still
+  sourceless — likely speculative dispatches, still unadmitted).
+
+## Next (no upstream contact without express permission)
+1. Keep rolling the frontier (regen → build → 60s verify → merge).
+2. Size the 13+ jump-table regions into `[[jump_table]]` (table-base hunt).
+3. Resolve `failed=2..6` heal failures per round (likely jump interiors).
+4. Admit `0x03007AF0/0x03007B44` only with sourced `[[code_copy]]`.
