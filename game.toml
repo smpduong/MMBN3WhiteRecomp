@@ -1,0 +1,55 @@
+# Mega Man Battle Network 3 White (USA, A6BE, revision 0).
+# Initial bring-up configuration consumed by both gba_recompile and the runtime.
+# Pattern follows mstan/MegaManZeroRecomp/game.toml; misses get appended as
+# reviewed [[extra_func]] / [[code_copy]] entries, never hand-edited generated code.
+
+[game]
+name = "Mega Man Battle Network 3 White"
+short_name = "mmbn3_white"
+
+[program]
+name = "Mega Man Battle Network 3 White (USA)"
+id = "A6BE"
+load_address = 0x08000000
+size = 0x00800000
+entry_pc = 0x08000000
+# Strict-static corpus policy: callbacks admitted from observed LLE
+# dispatch targets, not speculative literal words.
+speculative_literal_harvest = false
+codegen_shards = 16
+
+[identity]
+sha1 = "ff45038ae6d01cde4eae25a02dcb8bed29e07a6f"
+md5 = "68817204a691449e655cba739dbb0165"
+
+[bios]
+path = "../gbarecomp/bios/gba_bios.bin"
+sha1 = "300c20df6731a33952ded8c436f7f186d25d3492"
+hle = false
+# Skip boot logo/chime on launch; SWIs stay LLE, recompiled BIOS stays oracle.
+skip_intro = true
+
+[rom]
+path = "roms/mmbn3_white_usa.gba"
+sha1 = "ff45038ae6d01cde4eae25a02dcb8bed29e07a6f"
+
+[save]
+type = "sram"
+size = 32768
+path = "saves/mmbn3_white_usa.sav"
+
+[runtime]
+debug_port = 19863
+window_title = "MMBN3WhiteRecomp"
+
+[video]
+screen = "frontlit"
+view_width = 240
+resize_view = false
+
+[audio]
+shadow = false
+
+# No [[code_copy]] / [[extra_func]] yet.
+# First `gba_recompile --config game.toml` + LLE miss report will populate
+# reviewed entries here (cf. MegaManZeroRecomp/game.toml ~4000 lines at maturity).
