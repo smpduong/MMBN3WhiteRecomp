@@ -60,6 +60,19 @@ BIOS_HLE=1) had exonerated those paths beforehand.
 - R8 frontier: 2 cart roots (`0x08134A18/24`); the 2 held recur (x6, still
   sourceless — likely speculative dispatches, still unadmitted).
 
+## R9+ — frame-bounded runs are the source of truth (2026-09-04)
+`--frames N` (headless AND windowed) boots bit-identically native==interp
+(6.8M fp records, 0 div through 62M cycles; windowed+frames matches
+headless exactly incl. cart entry @76M cycles). Open-ended windowed runs
+stop advancing guest cycles at exactly 62191750 with host presents
+continuing — a runner/yield-path accounting stall, still open; NOT guest
+divergence. `YIELD_ON_VBLANK=0` open-ended passes the 0x366 wait (reaches
+0x0B76). Screenshots verified black pre-logo in both modes (display off,
+DISPCNT=0 — consistent, not divergence). Steady state: 2 held IWRAM probes
+(x6, sourceless) + `failed=2` heal counter with no log detail (same pair).
+Input driver (`tools/play_inputs.py`) + screenshots (`tools/shot.py`) ready;
+title input still to be driven once boot reaches it in bounded sessions.
+
 ## Next (no upstream contact without express permission)
 1. Keep rolling the frontier (regen → build → 60s verify → merge).
 2. Size the 13+ jump-table regions into `[[jump_table]]` (table-base hunt).
