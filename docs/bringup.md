@@ -73,6 +73,14 @@ DISPCNT=0 — consistent, not divergence). Steady state: 2 held IWRAM probes
 Input driver (`tools/play_inputs.py`) + screenshots (`tools/shot.py`) ready;
 title input still to be driven once boot reaches it in bounded sessions.
 
+## R10+ — demo-campaign sweeps, fully static boot (2026-09-04)
+`GBARECOMP_DEMO_INPUT=campaign` headless `--frames 1200` sweeps:
+R6 merged 271 new (34 jt regions admitted as roots; 602 entries, 3019 funcs);
+R7 merged 75 more. 300-frame verify: **0 misses, 0 interpreted, failed=0**,
+healed cache reused — boot path fully static. Only the 2 held IWRAM probes
+recur. Misses now come only from deeper gameplay past title (needs longer
+campaign runs + real input exploration).
+
 ## Next (no upstream contact without express permission)
 1. Keep rolling the frontier (regen → build → 60s verify → merge).
 2. Size the 13+ jump-table regions into `[[jump_table]]` (table-base hunt).

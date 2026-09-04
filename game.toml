@@ -1486,3 +1486,2024 @@ note = "R5: advancing cart frontier, bridged x3"
 addr = 0x08134A24
 mode = "thumb"
 note = "R5: advancing cart frontier, bridged x3"
+
+# Round 6: demo-campaign frontier, 305 new entries (skipped 0 already-seeded; held 0x03007AF0, 0x03007B44). IWRAM 0x60xx roots decode via iwram_sound_mixer span.
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 4 consecutive thumb misses in [0x0300604A, 0x030060D0] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 4
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0300604A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x2; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x03006050
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0300608A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x61344; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x030060D0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x334; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x03006182
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x102"
+
+[[extra_func]]
+addr = 0x030063D6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x5090"
+
+[[extra_func]]
+addr = 0x0300664C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x24080"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x030069A4, 0x03006A6A] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x030069A4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x72; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x030069EE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x44; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x03006A6A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive arm misses in [0x08000120, 0x08000148] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08000120
+mode = "arm"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800012C
+mode = "arm"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08000148
+mode = "arm"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080001D8
+mode = "arm"
+note = "R6: proposed from self-heal miss-log; bridged x2"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 5 consecutive thumb misses in [0x08000364, 0x0800036C] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 5
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08000364
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x95; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08000366
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x72; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08000368
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x79; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800036A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x72; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800036C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x11; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08000554
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x237"
+
+[[extra_func]]
+addr = 0x08000556
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x64"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x080006E2, 0x0800074E] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080006E2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x5; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800073C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800074E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080009E2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x2"
+
+[[extra_func]]
+addr = 0x08001E0C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x8"
+
+[[extra_func]]
+addr = 0x08001FE2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x080020B0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x59"
+
+[[extra_func]]
+addr = 0x080020BE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x30"
+
+[[extra_func]]
+addr = 0x0800240C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x273"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x080025D0, 0x08002642] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080025D0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x7294; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080025E6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x123; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08002642
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x5156; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x08002826, 0x080028AC] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08002826
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08002848
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080028AC
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x20; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08002B64
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x5090"
+
+[[extra_func]]
+addr = 0x0800341E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x272"
+
+[[extra_func]]
+addr = 0x08003616
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x509"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x08003D8A, 0x08003E32] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08003D8A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x9; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08003DCA
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x272; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08003E32
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4581; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 21 consecutive thumb misses in [0x080046A4, 0x08004816] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 21
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080046A4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x514; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080046B8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x514; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080046F6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004712
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004718
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800471C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004720
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004730
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004738
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800473C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004744
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800474E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004776
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800477E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004796
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800479E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080047B6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080047BE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080047E6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080047F6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004816
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x272; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 7 consecutive thumb misses in [0x080049E0, 0x08004A5A] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 7
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080049E0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A22
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A40
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A4E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A52
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A56
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A5A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x08004B8A, 0x08004BB0] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08004B8A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x270; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004BA2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x270; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004BB0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x98; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 6 consecutive thumb misses in [0x08004CCE, 0x08004D74] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 6
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08004CCE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x270; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004CE6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x270; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004CF4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x98; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004D46
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x267; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004D66
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x267; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004D74
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x98; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08007CFA
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1"
+
+[[extra_func]]
+addr = 0x080146CA
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x98"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x08021CEA, 0x08021D48] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08021CEA
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08021CFE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08021D48
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08021DE2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x6"
+
+[[extra_func]]
+addr = 0x08021DEE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x6"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 4 consecutive thumb misses in [0x08022060, 0x08022084] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 4
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08022060
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802207C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022080
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022084
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802212C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x12"
+
+[[extra_func]]
+addr = 0x08022136
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x12"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 4 consecutive thumb misses in [0x080222A2, 0x080222BA] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 4
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080222A2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080222A8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080222AE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080222BA
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080228A2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 7 consecutive thumb misses in [0x08022CB6, 0x08022D14] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 7
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08022CB6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022CBC
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022CD2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x12; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022CE8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x12; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022CEE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x12; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022D08
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022D14
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080233F6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x080234D2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x301"
+
+[[extra_func]]
+addr = 0x08024240
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x2891"
+
+[[extra_func]]
+addr = 0x08024244
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x2891"
+
+[[extra_func]]
+addr = 0x0802443C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x201"
+
+[[extra_func]]
+addr = 0x08024440
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x201"
+
+[[extra_func]]
+addr = 0x0802664C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 6 consecutive thumb misses in [0x0802672E, 0x080267E8] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 6
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802672E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08026766
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802678A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080267A6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080267B0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080267E8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x8; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08026962
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x56"
+
+[[extra_func]]
+addr = 0x08026FB8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1"
+
+[[extra_func]]
+addr = 0x0802700C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x28"
+
+[[extra_func]]
+addr = 0x0802724C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x8"
+
+[[extra_func]]
+addr = 0x08027270
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x28"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 6 consecutive thumb misses in [0x0802938E, 0x080293F8] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 6
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802938E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080293A2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080293D6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x7; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080293E4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x7; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080293EE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x7; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080293F8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x7; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802954E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x134"
+
+[[extra_func]]
+addr = 0x0802959A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x134"
+
+[[extra_func]]
+addr = 0x0802A086
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x103"
+
+[[extra_func]]
+addr = 0x0802A094
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x98"
+
+[[extra_func]]
+addr = 0x0802A27A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x103"
+
+[[extra_func]]
+addr = 0x0802A288
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x98"
+
+[[extra_func]]
+addr = 0x0802A32A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x103"
+
+[[extra_func]]
+addr = 0x0802AD00
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1"
+
+[[extra_func]]
+addr = 0x0802B25E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x276"
+
+[[extra_func]]
+addr = 0x0802B296
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x272"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 7 consecutive thumb misses in [0x0802B75A, 0x0802B7F2] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 7
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802B75A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B76C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B772
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B794
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B7DE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x7; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B7E8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x7; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B7F2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x7; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 11 consecutive thumb misses in [0x0802B886, 0x0802B9A8] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 11
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802B886
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x134; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B89E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B8C4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B920
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B92C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B942
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B948
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B950
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B96A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B984
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x68; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B9A8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x237; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802BB34
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x10"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x0802BCC0, 0x0802BCF2] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802BCC0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x2204; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802BCD0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x199; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802BCF2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x21; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x0802C1D2, 0x0802C2A2] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802C1D2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1539; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C23A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1029; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C2A2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1608; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C32A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x855"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 12 consecutive thumb misses in [0x08032DBA, 0x08032EB4] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 12
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08032DBA
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032DE0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032DE4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032DE8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032E00
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x187; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032E14
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x187; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032E88
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032E92
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032E9C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032EA2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032EAC
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08032EB4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 18 consecutive thumb misses in [0x08033032, 0x080330E0] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 18
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08033032
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803303C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033046
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033050
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803305A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033064
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803306E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033078
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033082
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803308E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803309A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080330A4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080330AE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080330B8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080330C4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080330CE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080330D8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080330E0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033186
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x08033292
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x183"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x080333FE, 0x0803341A] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080333FE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033410
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803341A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 11 consecutive thumb misses in [0x0803356C, 0x080336E6] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 11
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0803356C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033582
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080335B0
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080335E2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080335F2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033610
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803361A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033642
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803368A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080336A8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080336E6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 4 consecutive thumb misses in [0x0803395A, 0x080339B4] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 4
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0803395A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033964
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803396C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080339B4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 9 consecutive thumb misses in [0x08033FB4, 0x08034162] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 9
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08033FB4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08033FBC
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08034008
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x183; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08034080
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080340C2
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080340DE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080340E6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08034142
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x135; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08034162
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x48; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080342E4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x08034308
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x08034520
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3"
+
+[[extra_func]]
+addr = 0x0803452A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3"
+
+[[extra_func]]
+addr = 0x08034612
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x183"
+
+[[extra_func]]
+addr = 0x0803BA72
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x0803BA7C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 4 consecutive thumb misses in [0x08045F2C, 0x08045F68] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 4
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08045F2C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08045F3E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08045F4A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08045F68
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080475C8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x080475E4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x509"
+
+[[extra_func]]
+addr = 0x0804770C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x08047726
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x509"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 8 consecutive thumb misses in [0x080613AE, 0x08061480] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 8
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080613AE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080613B6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080613BE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080613C6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080613D8
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08061412
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08061462
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x103; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08061480
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x103; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080ABD92
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x080ABE74
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x272"
+
+[[extra_func]]
+addr = 0x080AC07E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x10"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x080AC2F4, 0x080AC36E] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080AC2F4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x167; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080AC362
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x105; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080AC36E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x102; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080F1246
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x214"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 5 consecutive thumb misses in [0x080F2F32, 0x080F2F64] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 5
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080F2F32
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080F2F3E
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080F2F46
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080F2F58
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080F2F64
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 4 consecutive thumb misses in [0x080FE6EE, 0x080FE720] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 4
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080FE6EE
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE702
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x5; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE70A
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE720
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x3; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R6 JUMP-TABLE (unsized, admitted as roots): 7 consecutive thumb misses in [0x080FE854, 0x080FE8FA] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 7
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080FE854
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x32; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE85C
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE894
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE8A4
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x33; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE8C6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE8D6
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080FE8FA
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x081335AC
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1"
+
+[[extra_func]]
+addr = 0x08133B58
+mode = "thumb"
+note = "R6: proposed from self-heal miss-log; bridged x1"
+
+# Round 7: second demo-campaign sweep, 75 new (skipped 0 dupes; held 0x03007AF0, 0x03007B44).
+
+[[extra_func]]
+addr = 0x03006A72
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x21"
+
+[[extra_func]]
+addr = 0x08002066
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x109"
+
+[[extra_func]]
+addr = 0x080032E8
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4"
+
+# ── R7 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x080046B4, 0x0800470C] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x080046B4
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x306; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080046F0
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x1; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0800470C
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004810
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x272"
+
+# ── R7 JUMP-TABLE (unsized, admitted as roots): 24 consecutive thumb misses in [0x0800499C, 0x08004A1A] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 24
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0800499C
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049A2
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049A6
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049AA
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049AE
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049B2
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049B6
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049BA
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049BE
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049C2
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049C6
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049CA
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x173; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049EC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049F2
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049F6
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049FA
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080049FE
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A02
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A06
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A0A
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A0E
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A12
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A16
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08004A1A
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x64; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08022A2C
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x37"
+
+[[extra_func]]
+addr = 0x08022A30
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x235"
+
+[[extra_func]]
+addr = 0x08022DCC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x080230AC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x1"
+
+[[extra_func]]
+addr = 0x08026898
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x1"
+
+# ── R7 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x08027280, 0x080272EC] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08027280
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08027294
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x8; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x080272EC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08028702
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x23"
+
+[[extra_func]]
+addr = 0x080293CE
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x1"
+
+[[extra_func]]
+addr = 0x08029498
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x134"
+
+[[extra_func]]
+addr = 0x080294CC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x135"
+
+# ── R7 JUMP-TABLE (unsized, admitted as roots): 5 consecutive thumb misses in [0x0802B82C, 0x0802B876] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 5
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802B82C
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x205; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B832
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x237; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B836
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x237; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B85E
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x237; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802B876
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R7 JUMP-TABLE (unsized, admitted as roots): 4 consecutive thumb misses in [0x0802BE24, 0x0802BED4] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 4
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802BE24
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x1624; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802BE5C
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x56; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802BE68
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x56; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802BED4
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x256; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802BF98
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x1368"
+
+# ── R7 JUMP-TABLE (unsized, admitted as roots): 8 consecutive thumb misses in [0x0802C02C, 0x0802C180] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 8
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x0802C02C
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x812; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C064
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C070
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x28; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C0A6
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x12; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C0E8
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x192; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C158
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x16; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C17C
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x620; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0802C180
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x620; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+# ── R7 JUMP-TABLE (unsized, admitted as roots): 3 consecutive thumb misses in [0x08034034, 0x08034076] ──
+# Likely the case targets of a computed-jump switch the finder
+# could not size. PREFER one sized [[jump_table]] over the 3
+# [[extra_func]] below: find the abs32 table base (the
+# `ldr rT,[pc,#..]; add rT,index<<2; ldr/mov pc` dispatcher) and
+# add `[[jump_table]] addr=<base> stride=4 count=<CMP bound> format="abs32" entries_mode="auto"`.
+
+[[extra_func]]
+addr = 0x08034034
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x187; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08034048
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x187; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x08034076
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4; part of a JUMP-TABLE CANDIDATE (prefer a sized [[jump_table]])"
+
+[[extra_func]]
+addr = 0x0803415E
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x48"
+
+[[extra_func]]
+addr = 0x0805EA1C
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x1"
+
+[[extra_func]]
+addr = 0x0805EA20
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x0805EAB8
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x0805EDBC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x1"
+
+[[extra_func]]
+addr = 0x080612FC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x08061354
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x103"
+
+[[extra_func]]
+addr = 0x080ABCDC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x272"
+
+[[extra_func]]
+addr = 0x080F0FA0
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x272"
+
+[[extra_func]]
+addr = 0x080F2EAC
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x4"
+
+[[extra_func]]
+addr = 0x080FE678
+mode = "thumb"
+note = "R7: proposed from self-heal miss-log; bridged x169"
