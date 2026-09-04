@@ -25,13 +25,13 @@ int main(int argc, char** argv) {
     gbarecomp::RunOptions opts;
     opts.builtin_game_name = "Mega Man Battle Network 3 White";
     opts.builtin_rom_sha1 = "ff45038ae6d01cde4eae25a02dcb8bed29e07a6f";
+    // CRC32 of the pinned White USA dump (same dump the SHA-1 gates on).
     opts.builtin_rom_crc32 = 0x0be4410au;
-    opts.mod_game_id = "mmbn3-white-us";
+    // No mod catalog yet; faithful 240x160 only for initial bring-up.
     opts.max_view_width = 240;
+    opts.launcher_region = "USA";
+    opts.launcher_game_config = "game.toml";  // prefill ROM/BIOS from [rom]/[bios]
+    opts.launcher_save_path = "saves/mmbn3_white_usa.sav";  // game.toml [save].path
 
-    // TODO: wire opts into runtime boot once generated/ exists.
-    // Initial bring-up runs via gba_recompile + LLE oracle first.
-    std::printf("%s: scaffold only — populate generated/ via tools/regen.sh\n",
-                opts.builtin_game_name);
-    return 0;
+    return gbarecomp::run_game(argc, argv, opts);
 }

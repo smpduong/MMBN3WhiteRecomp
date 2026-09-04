@@ -50,6 +50,59 @@ resize_view = false
 [audio]
 shadow = false
 
-# No [[code_copy]] / [[extra_func]] yet.
-# First `gba_recompile --config game.toml` + LLE miss report will populate
-# reviewed entries here (cf. MegaManZeroRecomp/game.toml ~4000 lines at maturity).
+# Round 1 (2026-09-04): reviewed from recomp_master_misses_A6BE.toml.frag.
+# All lie outside the 473-function finder corpus and were bridged x>=1 live.
+# The 0x08001CBA..0x08001CD2 run is flagged a jump-table candidate; admitted
+# as individual roots for now, to be resized into one [[jump_table]] once the
+# dispatcher base is identified. BIOS 0x00000018/0x00000128 are engine-owned
+# (see gbarecomp/bios/gba_bios.toml), not duplicated here.
+
+[[extra_func]]
+addr = 0x08001CBA
+mode = "thumb"
+note = "R1: jump-table candidate case target, bridged x1"
+
+[[extra_func]]
+addr = 0x08001CC2
+mode = "thumb"
+note = "R1: jump-table candidate case target, bridged x1"
+
+[[extra_func]]
+addr = 0x08001CCA
+mode = "thumb"
+note = "R1: jump-table candidate case target, bridged x1"
+
+[[extra_func]]
+addr = 0x08001CD2
+mode = "thumb"
+note = "R1: jump-table candidate case target, bridged x1"
+
+[[extra_func]]
+addr = 0x08001F24
+mode = "thumb"
+note = "R1: executed indirect/fall-through target, bridged x1"
+
+[[extra_func]]
+addr = 0x0800529C
+mode = "thumb"
+note = "R1: executed indirect/fall-through target, bridged x1"
+
+[[extra_func]]
+addr = 0x0802B344
+mode = "thumb"
+note = "R1: executed indirect/fall-through target, bridged x1"
+
+[[extra_func]]
+addr = 0x0802B3CA
+mode = "thumb"
+note = "R1: executed indirect/fall-through target, bridged x1"
+
+[[extra_func]]
+addr = 0x0802B3E2
+mode = "thumb"
+note = "R1: executed indirect/fall-through target, bridged x1"
+
+[[extra_func]]
+addr = 0x08132CE0
+mode = "thumb"
+note = "R1: hottest miss, bridged x29"
