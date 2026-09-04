@@ -107,6 +107,19 @@ driver: `tools/boot_to_title.py`; scripted probe: `tools/playtest_probe.py`.
 Open-ended "stall at 62M cycles" was heal-bound slowness + paused-mode
 confusion compounded; `--frames` and continued sessions progress normally.
 
+## R13 — backend items for playtesting (2026-09-04)
+1. Saves: machinery verified by inspection (dirty-tracked, atomic tmp+rename,
+   periodic+exit flush, config-relative paths). No .sav yet — game has not
+   reached a save point; live write-through still to be watched on real play.
+2. Keyboard: defaults complete (A=X B=Z Start=Return Select=RShift,
+   D-pad=arrows, R=V L=C; kDefaultBinds, rebindable via keybinds.ini). Same
+   KEYINPUT sink as the proven TCP path; physical presses untestable headless.
+3. Audio: pipeline proven live via TCP (34.9M samples, FIFO active, 4096-sample
+   window max=24864 rms=9093 — real non-silent title audio). Speaker audibility
+   unverifiable in this session.
+4. R9 demo-2000: 30 merged (3315 funcs); 300-frame verify 0/0/0. failed=2
+   persists opaquely (no log lines; same count as the held pair — likely them).
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;
