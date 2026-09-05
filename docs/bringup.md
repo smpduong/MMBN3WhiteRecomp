@@ -153,6 +153,18 @@ diff -rq clean; dispatch_table sha256 bf7feb2f... identical in genA, genB,
 AND the working-tree generated/. No embedded paths/timestamps (only guest
 addresses in comments). No hand-edits to generated C++.
 
+## R17 — save size resolved, import paths tested (2026-09-05)
+Reference 64KB .sav = 32KB real SRAM data (10587 nonzero bytes) + 32KB
+zero padding (emulator container artifact). game.toml 32768 is CORRECT:
+real 256Kbit SRAM size, matches engine kDefaultSramSize; addressing mirrors
+(off % size); oversize loads are rejected, not truncated. Tests (disposable
+copies, build/save-test/, --save override): 32KB first-half imports cleanly
+(save_loaded 32768/32768), boots identically, untouched when game does not
+write (dirty tracking ok); 64KB direct import rejected gracefully
+("save file too large ...") with file untouched and no crash. Config
+UNCHANGED by design. Full save→restart→load proof still needs a real
+in-game save point (past current gameplay reach).
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;
