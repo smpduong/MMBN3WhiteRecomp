@@ -137,6 +137,16 @@ likely same class (nearby stack, x6 bridges, no source found) — pending captur
 Strict scope statement: boot and title routes pass from fresh processes;
 full-game strict is not claimed (synthesized-code abort is by design).
 
+## R15 — fresh-checkout acceptance (2026-09-05)
+Separate clean checkout (/tmp-equivalent temp ws) via tools/setup.sh,
+private ROM/BIOS supplied by env: engine pinned 425d941 (+arm-recomp-core
+14be3cf) verified, SDL2/prereq checks pass, ROM+BIOS SHA-1 verified, BIOS
+codegen via absolute --out (770 funcs), game regen 3318 funcs, configure
+asserts real BIOS linkage, build ok, setup exit 0. Fresh binary strict 30f:
+FULLY_STATIC 0/0/0. One setup.sh fix found by the run itself (missing roms/
+saves/generated dirs on fresh clones). Stub .o still compiles in-tree but
+the game links the real table (proven by strict BIOS baking).
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;
