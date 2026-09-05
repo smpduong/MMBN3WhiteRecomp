@@ -83,6 +83,7 @@ grep -q "0x00000138u" "$ABS_OUT/bios_dispatch_table.cpp" \
   || die "BIOS dispatch table looks empty"
 
 log "staging ROM + generating game code"
+run mkdir -p "$GAME_DIR/roms" "$GAME_DIR/saves" "$GAME_DIR/generated"
 run cp "$MMBN3_ROM" "$GAME_DIR/roms/mmbn3_white_usa.gba"
 run sh "$GAME_DIR/tools/regen.sh" --engine "$ENGINE"
 [ -s "$GAME_DIR/generated/recompiled_000.cpp" ] \
