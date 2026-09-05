@@ -147,6 +147,12 @@ FULLY_STATIC 0/0/0. One setup.sh fix found by the run itself (missing roms/
 saves/generated dirs on fresh clones). Stub .o still compiles in-tree but
 the game links the real table (proven by strict BIOS baking).
 
+## R16 — reproducible generation (2026-09-05)
+Same tool binary + ROM + game.toml + engine rev, two temp dirs: 19 files,
+diff -rq clean; dispatch_table sha256 bf7feb2f... identical in genA, genB,
+AND the working-tree generated/. No embedded paths/timestamps (only guest
+addresses in comments). No hand-edits to generated C++.
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;
