@@ -165,6 +165,18 @@ write (dirty tracking ok); 64KB direct import rejected gracefully
 UNCHANGED by design. Full save→restart→load proof still needs a real
 in-game save point (past current gameplay reach).
 
+## R18 — stack-dispatch resolution + green suite (2026-09-05)
+0x03007B44: abort trace proves game WRITES a Thumb stub onto its own stack
+(sp-relative stores B510/... at 0x7B44+) then dispatches it — synthesized
+code, no ROM source, so no [[code_copy]] can exist; interior of nothing
+(0x7588+0x5BC coincidence is outside the mixer span end 0x75AC). Verdict:
+UNADMITTED by design; interpreter bridge is correct; strict aborts past the
+title route here (scope stays boot+title strict). 0x03007AF0: same class,
+probable (nearby stack, x6, sourceless) — unresolved pending live capture.
+Suite: fixed STRICT env leak into later tests (shell functions persist
+VAR=x prefixes — use env(1) inside). tools/regress.sh: 4 PASS / 0 FAIL /
+3 SKIP (first-scene, save-reload, tutorial pending gameplay reach).
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;
