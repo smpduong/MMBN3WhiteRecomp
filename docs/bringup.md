@@ -177,6 +177,21 @@ Suite: fixed STRICT env leak into later tests (shell functions persist
 VAR=x prefixes — use env(1) inside). tools/regress.sh: 4 PASS / 0 FAIL /
 3 SKIP (first-scene, save-reload, tutorial pending gameplay reach).
 
+## Verification ledger (2026-09-05)
+DIRECTLY VERIFIED: strict boot (30f) + title route (300f) FULLY_STATIC from
+fresh processes; title/NEW-GAME-menu/classroom/folder screenshots inspected;
+TCP input advances title to menu; 11 KEYINPUT identities round-trip; 32KB save
+import loads; audio pipeline emits advancing non-silent samples (title+menu);
+bit-identical generation (3-way); fresh checkout builds + strict-boots;
+regress.sh green (4 pass / 3 skip).
+REPORTED BUT NOT REPRODUCED: open-ended full-boot-to-title wall-clock claims
+from early notes (superseded by frame-bounded + continued-session evidence).
+UNRESOLVED: open-ended 62M-cycle accounting stall (cosmetic); failed=2 heal
+counter (no log detail); 0x03007AF0 sourceless probes; unsized jump regions;
+strict opening route aborts at documented stack stub (by design).
+NOT TESTED: physical keyboard feel; speaker audibility; real SRAM save point;
+first controllable gameplay (movement/battle); tutorial.
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;

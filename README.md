@@ -4,10 +4,13 @@ Static recompilation of **Mega Man Battle Network 3 White** (GBA) to native PC,
 built on [`gbarecomp`](https://github.com/smpduong/gbarecomp) (fork of
 `mstan/gbarecomp`, PolyForm Noncommercial 1.0.0).
 
-> Status — bring-up in progress. Native boot→title with graphics verified;
-> boot and title routes pass strict-static from fresh processes; opening
-> content is covered iteratively (see `docs/bringup.md`). Uncovered targets
-> fall back to the interpreter, are reported, and get folded into `game.toml`.
+> Status — bring-up in progress, verified to title/menu. Native boot→title
+> with graphics is screenshot-verified (title, NEW GAME menu, classroom
+> scene, folder menu); boot and title routes pass strict-static from fresh
+> processes (`FULLY_STATIC`, cache bypassed); `./tools/regress.sh` is green
+> (4 pass / 3 explicitly skipped). Opening content is covered iteratively
+> (see `docs/bringup.md`). Uncovered targets fall back to the interpreter,
+> are reported, and get folded into `game.toml`.
 
 This is not a decompilation or source port. No ROM, BIOS, save, or generated
 ROM-derived source is included.
@@ -44,6 +47,9 @@ Private inputs (yours, never committed): MMBN3 White (USA) ROM dump +
    regenerates `generated/`; never hand-edit it.
 6. TCP debugging starts paused: send `{"cmd":"continue"}` first
    (see `tools/shot.py`).
+7. `./tools/regress.sh` runs the regression suite (key identities,
+   strict boot, title/menu screenshots, save import; gameplay tests skip
+   until their reach is covered).
 
-Reference: `../ROMS/Mega-Man Battle Network 3 - White # GBA.GBA`,
-`reference-video/Megaman_Battle_Network_3_Story_Walkthrough*` (oracle only).
+For visual/oracle comparison use your own legally obtained longplay; the
+project ships no reference video.

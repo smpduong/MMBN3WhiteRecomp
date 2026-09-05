@@ -1,3 +1,15 @@
+# SUPERSEDED — do not file as written (2026-09-05)
+
+The diagnosis below is obsolete. The "native park with blank PPU" was our
+own build error (BIOS recompiler output landed in a stray CWD-relative
+directory; the game linked the empty dispatch stub), and the "interp renders
+vs native black" split was compounded by TCP probes that never sent
+`continue` (paused core). After fixing both locally, native boots to the
+title with graphics. No upstream defect is established; nothing here has
+been reported anywhere. Retained as investigation history only.
+
+---
+
 # Upstream issue draft — native park vs interp render (MMBN3 White)
 
 Target: `mstan/gbarecomp` @ `425d941` (+ `arm-recomp-core` @ `14be3cf`),
