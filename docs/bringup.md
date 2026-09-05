@@ -73,13 +73,16 @@ DISPCNT=0 — consistent, not divergence). Steady state: 2 held IWRAM probes
 Input driver (`tools/play_inputs.py`) + screenshots (`tools/shot.py`) ready;
 title input still to be driven once boot reaches it in bounded sessions.
 
-## R10+ — demo-campaign sweeps, fully static boot (2026-09-04)
+## R10+ — demo-campaign sweeps; boot path static only with cache (2026-09-04)
 `GBARECOMP_DEMO_INPUT=campaign` headless `--frames 1200` sweeps:
 R6 merged 271 new (34 jt regions admitted as roots; 602 entries, 3019 funcs);
-R7 merged 75 more. 300-frame verify: **0 misses, 0 interpreted, failed=0**,
-healed cache reused — boot path fully static. Only the 2 held IWRAM probes
-recur. Misses now come only from deeper gameplay past title (needs longer
-campaign runs + real input exploration).
+R7 merged 75 more. 300-frame verify: **0 misses, 0 interpreted, failed=0** —
+but with 670+ routines loaded from the self-heal cache (`coverage=NOT_STATIC`,
+warm_loaded>0). Corrected by R14 strict runs: boot (30f) and title (300f)
+pass with cache disabled and fallback set to abort. Boot-path static is now
+a measured strict result, not a cache-assisted inference. Only the 2 held
+IWRAM probes recur. Misses now come only from deeper gameplay past title
+(needs longer campaign runs + real input exploration).
 
 ## R11 — jump-table sizing attempt: cluster is callbacks, not a switch
 The R3 "30 consecutive" cluster (0x21F9C–0x221B4) is NOT one switch: no
