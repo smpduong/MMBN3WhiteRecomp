@@ -120,6 +120,20 @@ confusion compounded; `--frames` and continued sessions progress normally.
 4. R9 demo-2000: 30 merged (3315 funcs); 300-frame verify 0/0/0. failed=2
    persists opaquely (no log lines; same count as the held pair — likely them).
 
+## R14 — strict baseline: boot+title pass; opening stops at stack stub (2026-09-05)
+STRICT_STATIC=1 boot (30f) and title route (300f): FULLY_STATIC, 0 misses,
+0 interp, cache bypassed (not deleted). Two genuine gaps found by aborts and
+admitted after review: 0x08001E9A (POP{PC} stub twin of 0x08001E8E) and
+0x0802B370 (PUSH-prologue function after literal pool). Corpus 3318 funcs.
+Strict opening route (demo 1200f) aborts deterministically at 0x03007B44:
+trace proves the game WRITES a Thumb stub onto its own stack (sp-relative
+stores B510/1C04/... immediately precede dispatch) — runtime-synthesized
+code with no ROM source, so no [[code_copy]] exists to admit; leaving it
+unadmitted per policy (interpreter bridge is the correct fallback). 0x03007AF0
+likely same class (nearby stack, x6 bridges, no source found) — pending capture.
+Strict scope statement: boot and title routes pass from fresh processes;
+full-game strict is not claimed (synthesized-code abort is by design).
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;

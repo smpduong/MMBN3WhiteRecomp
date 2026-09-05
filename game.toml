@@ -4055,3 +4055,17 @@ note = "R9: proposed from self-heal miss-log; bridged x144"
 addr = 0x080F2EC2
 mode = "thumb"
 note = "R9: proposed from self-heal miss-log; bridged x9"
+
+# Round 10: strict-static abort evidence (boot_strict300, first miss
+# pc=0x08001E9A thumb). Bytes BD00 (POP {PC}) directly after BX R0 — same
+# PLT-trampoline tail shape as admitted twin 0x08001E8E. Direct-call target.
+
+[[extra_func]]
+addr = 0x08001E9A
+mode = "thumb"
+note = "R10: strict abort; POP{PC} stub twin of 0x08001E8E"
+
+[[extra_func]]
+addr = 0x0802B370
+mode = "thumb"
+note = "R10: strict abort; PUSH-prologue function after literal pool"
