@@ -206,6 +206,14 @@ Two visual reports, both root-caused:
    now fade with the scene. All 26 engine tests pass. Awaiting live re-check
    at a real transition (automated sessions could not stage one on demand).
 
+## R20 — SFX latency: cushion trim (2026-09-06)
+User probe log (104s, real display): bridge HEALTHY — fill 50-70ms at target,
+corr <0.1%, 0 underruns, 0 overflows, gt_compile=0. No flood, no gaps: the
+audible SFX delay is the cushion+device latency itself (~100ms), not a defect
+downstream. Trimmed steady target 60ms -> 35ms in fork (stays above the 12ms
+emergency floor; stretch concealer covers hitches). All 26 engine tests pass.
+User to A/B on relaunch; revert if gaps appear during area transitions.
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;
