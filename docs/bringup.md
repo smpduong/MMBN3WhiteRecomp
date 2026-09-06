@@ -192,6 +192,20 @@ strict opening route aborts at documented stack stub (by design).
 NOT TESTED: physical keyboard feel; speaker audibility; real SRAM save point;
 first controllable gameplay (movement/battle); tutorial.
 
+## R19 — live playtest findings: grey wash + lingering portraits (2026-09-06)
+User-confirmed live: music on speakers OK; game saved OK; dialogue advances
+with no other issues (closes audio-audible, save-write, dialogue items).
+Two visual reports, both root-caused:
+1. Grey wash over everything: game.toml [video] screen was "frontlit" — its
+   panel simulation lifts blacks by design. Set to "raw" (exact passthrough,
+   matches emulator look + TCP captures). Awaiting live re-check.
+2. Portraits linger through black transitions: engine PPU marked OBJ blend
+   target1 ONLY for semi-transparent sprites (obj_mode==1), but GBATEK BLDCNT
+   bit 4 targets ALL sprites. Normal OBJs never faded with brightness
+   decrease. Fixed in fork (gba_ppu.cpp, both render paths) — normal sprites
+   now fade with the scene. All 26 engine tests pass. Awaiting live re-check
+   at a real transition (automated sessions could not stage one on demand).
+
 ## Backend status before playtesting (no upstream contact without permission)
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;

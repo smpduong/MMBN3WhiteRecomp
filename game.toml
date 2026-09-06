@@ -44,7 +44,9 @@ debug_port = 19863
 window_title = "MMBN3WhiteRecomp"
 
 [video]
-screen = "frontlit"
+# Raw passthrough (was "frontlit": its panel simulation lifts blacks to grey
+# across the whole game — reported live 2026-09-06).
+screen = "raw"
 view_width = 240
 resize_view = false
 
