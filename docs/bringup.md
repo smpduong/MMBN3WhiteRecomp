@@ -214,7 +214,39 @@ downstream. Trimmed steady target 60ms -> 35ms in fork (stays above the 12ms
 emergency floor; stretch concealer covers hitches). All 26 engine tests pass.
 User to A/B on relaunch; revert if gaps appear during area transitions.
 
-## Backend status before playtesting (no upstream contact without permission)
+## R21 — Codex continuation (2026-09-07)
+
+Rebuilt the current Apple Silicon runner; all 26 engine CTest checks passed.
+Updated setup.sh engine pin to d16961d361352a1c8e4f89af57bb9cded32f17fb,
+including the OBJ fade fix and latest 25ms/512-sample audio settings.
+Fixed regen.sh to honor its parsed --config argument.
+
+Current 4096-entry corpus initially failed a 300-frame strict boot, despite
+the historical green result. Reviewed traces exposed Thumb entries 03005F8C
+and 03005F30 in the existing ROM-backed copy, then an interior dispatch at
+03005FDC in the 03005FD0 body. Added the first two as roots and the third
+as a resume alias; regenerated source and rebuilt without manual generated
+code edits. The same 300-frame run now exits 0: FULLY_STATIC, misses=0,
+interpreted_insns=0, healed_native=0. Cache and interpreter bridging disabled.
+
+Promoted regress.sh strict boot from 30 to 300 frames, with a separate save.
+Evidence: build/codex-review-20260907/ (strict log, regeneration and build logs).
+This is a bounded boot result, not fresh visual confirmation of title or
+gameplay. The complete GUI regression suite was not rerun in this session.
+Next: rerun title/menu capture, verify real save/restart/load on a disposable
+copy, and confirm sprite fades and final audio latency in live play.
+Changes remain uncommitted for review.
+
+## Historical backend status before playtesting (superseded by R18–R21)
+
+The following list records the earlier state only. R18 established that
+0x03007B44 is synthesized stack code and must not be assigned an invented
+ROM mapping. R19 records user-confirmed speaker audio and an in-game save;
+automated save/restart/load verification remains outstanding. R20's 35ms
+audio target was subsequently superseded by engine commit 656357d (25ms,
+512-sample quantum). Live confirmation of the final audio settings and
+sprite fade fix is still needed.
+
 VERIFIED: native boot to title with graphics; TCP input advances title to menu;
 demo-campaign headless sweeps (3019 funcs, 0-miss boot); SRAM config detected;
 IWRAM mixer + copy-2 static via code_copy.
