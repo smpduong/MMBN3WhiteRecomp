@@ -53,6 +53,22 @@ resize_view = false
 [audio]
 shadow = false
 
+[[extra_func]]
+addr = 0x03005F8C
+mode = "thumb"
+note = "2026-09-07: strict boot dispatch from ARM 03005EF4 via BX 03005F8D. Existing code_copy backs this at ROM 0823608C; separate entry after 03005F80 returns at 03005F88."
+
+[[extra_func]]
+addr = 0x03005F30
+mode = "thumb"
+note = "2026-09-07: next strict boot miss, IRQ dispatch via BX 03005F31 from 03005EF4; backed by existing code_copy at ROM 08236030. No instruction at this address in prior generated corpus."
+
+[[extra_func]]
+addr = 0x03005FDC
+mode = "thumb"
+resume = true
+note = "2026-09-07 strict trace: dispatch from 03005FFC into existing 03005FD0 body (end 03005FDE); expose reviewed interior entry."
+
 # Round 1 (2026-09-04): reviewed from recomp_master_misses_A6BE.toml.frag.
 # All lie outside the 473-function finder corpus and were bridged x>=1 live.
 # The 0x08001CBA..0x08001CD2 run is flagged a jump-table candidate; admitted
