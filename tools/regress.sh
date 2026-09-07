@@ -60,7 +60,7 @@ report "key-ident (11 KEYINPUT round-trips)" $?
 # through `env` inside the call.
 run_with_timeout 240 strict-boot "$SUITE/strict_boot.log" \
   env GBARECOMP_STRICT_STATIC=1 \
-  "$EXE" --no-window --frames 30 --rom "$ROM" --bios "$BIOS"
+  "$EXE" --no-window --frames 300 --save "$SUITE/strict_boot.sav" --rom "$ROM" --bios "$BIOS"
 code=$?
 if [ $code -eq 0 ] && grep -q "FULLY_STATIC" "$SUITE/strict_boot.log" \
   && grep -q "interpreter_bridge=ABORT" "$SUITE/strict_boot.log"; then
