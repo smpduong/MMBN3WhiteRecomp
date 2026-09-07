@@ -37,4 +37,4 @@ test -f "$ROM" || {
   echo "copy your dump to $ROM (see baserom.md; never commit it)" >&2
   exit 1
 }
-"$ENGINE/build/gba_recompile" --config "$ROOT/game.toml" --rom "$ROM" --out "$OUT"
+"$ENGINE/build/gba_recompile" --config "$CONFIG" --rom "$ROM" --out "$OUT"
