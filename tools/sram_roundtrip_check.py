@@ -179,6 +179,16 @@ def main():
             walk_scroll = client1.scroll()
             note(f"post-walk shot={walk_shot[:12]} "
                  f"scroll={pre_scroll[:16]}->{walk_scroll[:16]}")
+            # Advance any story dialog the walk triggered (S14: the Lan's-room
+            # trigger leaves a textbox open that interferes with menu nav).
+            # A¹×6 steps through cutscene text; completionists note the shots.
+            for i in range(6):
+                client1.tap(A, hold=0.3, gap=1.5)
+            time.sleep(2.0)
+            trigger_shot = client1.shot(out / "p1-post-trigger.ppm")
+            trigger_scroll = client1.scroll()
+            note(f"post-trigger shot={trigger_shot[:12]} "
+                 f"scroll={walk_scroll[:16]}->{trigger_scroll[:16]}")
 
             # Closed-loop row sweep. S14 design (S1-S13 lessons):
             # - The PET list template is captured FRESH after each pet_open
