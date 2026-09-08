@@ -29,6 +29,11 @@ int main(int argc, char** argv) {
     opts.builtin_rom_crc32 = 0x0be4410au;
     // No mod catalog yet; faithful 240x160 only for initial bring-up.
     opts.max_view_width = 240;
+    // Bounded rewind history so the host rewind route (assist script, rewind
+    // hotkey) has snapshots to restore: 10 s at the default 15-frame capture
+    // interval (~41 snapshots held). Validated by the windowed assist-script
+    // run in docs/CODEX_REVIEW_GATE_1.md.
+    opts.rewind_history_seconds = 10;
     opts.launcher_region = "USA";
     opts.launcher_game_config = "game.toml";  // prefill ROM/BIOS from [rom]/[bios]
     opts.launcher_save_path = "saves/mmbn3_white_usa.sav";  // game.toml [save].path
