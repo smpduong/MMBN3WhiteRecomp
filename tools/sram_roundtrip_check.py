@@ -167,19 +167,27 @@ def main():
             note(f"pre-save file={pre_hash[:16]} scroll={pre_scroll[:16]} "
                  f"shot={pre_shot[:12]}")
 
-            # Bounded exploration matrix: menu opener, then cursor Downs, A,
-            # settle past the periodic save-flush window, hash the file. The
-            # PET menu lists Save 8th (ChipFolder/SubChip/Library/MegaMan/
-            # E-mail/Key Item/Comm./Save), so sweep 0-8 Downs per opener.
+            # Systematic per-attempt reset: B×3 backs out to gameplay from any
+            # submenu depth, START reopens PET at its default cursor row
+            # (witnessed: row 0 ChipFolder — downs=0 opened the folder), UP×10
+            # clamps to the top (no-wrap assumed; screenshots verify), then
+            # DOWN×N selects row N deterministically. A opens, second A
+            # confirms (Yes is default). Each attempt is independent.
             openers = [("START", START), ("SELECT", SELECT), ("L", LB),
                        ("R", RB)]
             winner = None
             attempt = 0
             for oname, okey in openers:
-                client1.tap(okey)
-                time.sleep(2.0)
-                base = client1.shot(out / f"p1-explore-{oname}.ppm")
                 for downs in range(9):
+                    for _ in range(3):
+                        client1.tap(BBTN, hold=0.2, gap=0.4)
+                    time.sleep(1.0)
+                    client1.tap(okey)
+                    time.sleep(2.0)
+                    reset_shot = client1.shot(
+                        out / f"p1-reset-{attempt:02d}.ppm")
+                    for _ in range(10):
+                        client1.tap(UP, hold=0.15, gap=0.25)
                     for _ in range(downs):
                         client1.tap(DOWN, hold=0.2, gap=0.3)
                     client1.tap(A)
@@ -194,7 +202,7 @@ def main():
                     entry = {"attempt": attempt, "opener": oname,
                              "downs": downs, "file_hash": h,
                              "changed": h != pre_hash, "shot": shot[:12],
-                             "menu_shot": base[:12]}
+                             "reset_shot": reset_shot[:12]}
                     res["attempts"].append(entry)
                     note(f"attempt {attempt}: opener={oname} downs={downs} "
                          f"changed={h != pre_hash} file={h[:12]} shot={shot[:12]}")
