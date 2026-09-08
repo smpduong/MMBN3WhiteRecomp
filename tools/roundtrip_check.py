@@ -249,16 +249,41 @@ def drive_to_net(client, out, proc, tag, note):
     p1_raw, net = net_check(client, proc, out, tag, note,
                             f"{tag}-_net_try.ppm", banned, title_raw)
     if p1_raw is None:
-        # One bounded fallback: the save may load with the PET menu open
-        # (observed once); B closes it to gameplay.
-        note(f"[{tag}] A-select failed scene check; one B-close fallback")
+        # Fallback: B closes a possibly-open PET menu, then gameplay is
+        # PROVEN by walking (scroll delta) rather than by color: blue-water
+        # areas (pier: blue 0.575, witnessed S17) fail the PET blue gate
+        # while PET menus never scroll. Area-agnostic and behavior-based.
+        note(f"[{tag}] A-select failed scene check; B-close + walk-proof")
         client.tap(0x3FD, hold=0.3, gap=1.0)
         time.sleep(3)
-        p1_raw, net = net_check(client, proc, out, tag, note,
-                                f"{tag}-_net_try2.ppm", banned, title_raw)
+        s0 = client.scroll()
+        w0 = client.shot_raw(out / f"{tag}-_walk0.ppm")
+        client.call(cmd="set_keyinput", value=0x3BF)
+        time.sleep(2.5)
+        w1 = client.shot_raw(out / f"{tag}-_walk1.ppm")
+        client.call(cmd="set_keyinput", value=RELEASED)
+        s1 = client.scroll()
+        st1 = client.status()
+        time.sleep(2.0)
+        st2 = client.status()
+        pcs = [st1.get("pc"), st2.get("pc")]
+        cart = [p for p in pcs if isinstance(p, str)
+                and 0x08000000 <= int(p, 16) <= 0x09FFFFFF]
+        lum = upper_luma(w1)
+        ch = hashlib.sha256(w1).hexdigest()
+        walk_ok = (s1 != s0 and lum > 60.0 and st2.get("run") == "running"
+                   and len(cart) >= 1
+                   and st2.get("frame", -1) > st1.get("frame", -1))
+        net = {"hash": ch, "luma": round(lum, 1), "run": st2.get("run"),
+               "pcs": pcs, "cart_hits": len(cart),
+               "f0": st1.get("frame"), "f1": st2.get("frame"),
+               "route": "B-close+walk-proven",
+               "scroll": f"{s0[:16]}->{s1[:16]}"}
+        note(f"[{tag}] walk-proof: ok={walk_ok} {net}")
+        p1_raw = w1 if walk_ok else None
     if p1_raw is None:
         raise Fail(f"{tag}: Continue never entered gameplay "
-                   f"(A-select + B-close failed; see driver.log)")
+                   f"(A-select + B-close/walk-proof failed; see driver.log)")
     note(f"[{tag}] gameplay entered")
     with open(out / f"{tag}-P1_net.ppm", "wb") as f:
         f.write(f"P6\n240 160\n255\n".encode() + p1_raw)

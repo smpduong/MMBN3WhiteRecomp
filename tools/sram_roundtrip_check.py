@@ -81,13 +81,14 @@ def launch(out, test_sav, cache_dir, tag, logf):
 
 
 def enter_scene(client, out, proc, tag, note):
-    """Shared verified navigation; returns (ok, menu_hash, p1_hash)."""
+    """Shared verified navigation; returns (ok, menu_hash, p1_hash).
+    Hashes are '' when entry fails (never None — callers subscript)."""
     try:
         menu_h, p1_h, _net = drive_to_net(client, out, proc, tag, note)
         return True, menu_h, p1_h
     except Fail as e:
         note(f"[{tag}] scene entry failed: {e}")
-        return False, None, None
+        return False, "", ""
 
 
 def graceful_quit(client, proc, tag, note, wait_cap=300.0):
