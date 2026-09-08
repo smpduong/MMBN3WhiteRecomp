@@ -184,22 +184,30 @@ def main():
             _tgrid, _tnx, _tny = (_tpl["luma"], _tpl["grid_nx"],
                                   _tpl["grid_ny"])
             _tthr = _tpl["threshold_mad"]
+            _txmin = _tpl.get("mask_x_min", 0)
 
             def _grid(raw):
                 tot = [0] * (_tnx * _tny)
                 cnt = [0] * (_tnx * _tny)
                 for y in range(160):
-                    for x in range(240):
+                    for x in range(_txmin, 240):
                         i = 3 * (y * 240 + x)
                         c = (y * _tny // 160) * _tnx + (x * _tnx // 240)
                         tot[c] += (raw[i] + raw[i + 1] + raw[i + 2]) // 3
                         cnt[c] += 1
-                return [t // c for t, c in zip(tot, cnt)]
+                return [t / c if c else None for t, c in zip(tot, cnt)]
+
+            def _mad(g):
+                s, n = 0.0, 0
+                for a, b in zip(g, _tgrid):
+                    if a is not None and b is not None:
+                        s += abs(a - b)
+                        n += 1
+                return s / n
 
             def at_pet_list(path):
                 raw = client1.shot_raw(out / path)
-                g = _grid(raw)
-                mad = sum(abs(a - b) for a, b in zip(g, _tgrid)) / len(g)
+                mad = _mad(_grid(raw))
                 return mad < _tthr, mad, raw
 
             openers = [("START", START), ("SELECT", SELECT)]
