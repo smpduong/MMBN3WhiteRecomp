@@ -167,61 +167,73 @@ def main():
             note(f"pre-save file={pre_hash[:16]} scroll={pre_scroll[:16]} "
                  f"shot={pre_shot[:12]}")
 
-            # Systematic per-attempt reset: B×3 backs out to gameplay from any
-            # submenu depth, START reopens PET at its default cursor row
-            # (witnessed: row 0 ChipFolder — downs=0 opened the folder), UP×10
-            # clamps to the top (no-wrap assumed; screenshots verify), then
-            # DOWN×N selects row N deterministically. A opens, second A
-            # confirms (Yes is default). Each attempt is independent.
-            openers = [("START", START), ("SELECT", SELECT), ("L", LB),
-                       ("R", RB)]
+            # Closed-loop row sweep (S1-S5 showed blind DOWN-counting never
+            # lands Save: cursor state carries across attempts). Per opener:
+            # fresh PET, UPx10 to the extreme, then single-step DOWN + open +
+            # double-confirm + hash, backing out with B,B to the list after
+            # every step. 12 steps cover all 8 rows with or without wrap;
+            # a PET-presence guard (blue panels) reopens on drift, bounded.
+            # Save completes inside the step (Yes/Yes defaults, witnessed);
+            # the winner screenshot must show SAVE UI (packet-verified).
+            from roundtrip_check import blue_frac as _blue_frac
+            openers = [("START", START), ("SELECT", SELECT)]
             winner = None
             attempt = 0
-            for oname, okey in openers:
-                for downs in range(9):
-                    for _ in range(3):
-                        client1.tap(BBTN, hold=0.2, gap=0.4)
-                    time.sleep(1.0)
-                    client1.tap(okey)
-                    time.sleep(2.0)
-                    reset_shot = client1.shot(
-                        out / f"p1-reset-{attempt:02d}.ppm")
-                    for _ in range(10):
-                        client1.tap(UP, hold=0.15, gap=0.25)
-                    for _ in range(downs):
-                        client1.tap(DOWN, hold=0.2, gap=0.3)
-                    client1.tap(A)
-                    time.sleep(2.0)
-                    # Confirm twice: Save is a two-step dialog ("Save your
-                    # game? Yes" then "Ok to erase old save data? Yes", both
-                    # defaulting to Yes — witnessed in gate1-S4 attempt-02).
-                    # In other submenus extra As only move within SRAM-clean
-                    # state; a hash change still gates the winner, and the
-                    # winner screenshot must show SAVE UI (packet-verified).
-                    client1.tap(A, hold=0.2, gap=0.5)
-                    time.sleep(1.5)
-                    client1.tap(A, hold=0.2, gap=0.5)
-                    time.sleep(4.0)  # settle past the ~1s save-flush window
-                    h = file_hash(test_sav)
-                    shot = client1.shot(out / f"p1-attempt-{attempt:02d}.ppm")
-                    entry = {"attempt": attempt, "opener": oname,
-                             "downs": downs, "file_hash": h,
-                             "changed": h != pre_hash, "shot": shot[:12],
-                             "reset_shot": reset_shot[:12]}
-                    res["attempts"].append(entry)
-                    note(f"attempt {attempt}: opener={oname} downs={downs} "
-                         f"changed={h != pre_hash} file={h[:12]} shot={shot[:12]}")
-                    attempt += 1
-                    if h != pre_hash:
-                        winner = entry
-                        break
-                    # Dismiss any dialog this A opened before the next try.
-                    client1.tap(BBTN, hold=0.2, gap=0.5)
-                    time.sleep(1.0)
-                # Back out to field before the next opener.
+
+            def pet_open():
                 for _ in range(3):
-                    client1.tap(BBTN, hold=0.2, gap=0.5)
-                time.sleep(1.5)
+                    client1.tap(BBTN, hold=0.2, gap=0.4)
+                time.sleep(1.0)
+                client1.tap(okey)
+                time.sleep(2.0)
+                for _ in range(10):
+                    client1.tap(UP, hold=0.15, gap=0.25)
+
+            def in_pet():
+                raw = client1.shot_raw(out / "_petguard.ppm")
+                return _blue_frac(raw) > 0.30
+
+            for oname, okey in openers:
+                for sweep_dir, skey in (("down", DOWN), ("up", UP)):
+                    pet_open()
+                    reopens = 0
+                    for step in range(12):
+                        client1.tap(skey, hold=0.2, gap=0.3)
+                        client1.tap(A)
+                        time.sleep(1.5)
+                        client1.tap(A, hold=0.2, gap=0.5)
+                        time.sleep(1.0)
+                        client1.tap(A, hold=0.2, gap=0.5)
+                        time.sleep(4.0)
+                        h = file_hash(test_sav)
+                        shot = client1.shot(
+                            out / f"p1-attempt-{attempt:02d}.ppm")
+                        entry = {"attempt": attempt, "opener": oname,
+                                 "sweep": sweep_dir, "step": step,
+                                 "file_hash": h, "changed": h != pre_hash,
+                                 "shot": shot[:12]}
+                        res["attempts"].append(entry)
+                        note(f"attempt {attempt}: opener={oname} "
+                             f"sweep={sweep_dir} step={step} "
+                             f"changed={h != pre_hash} file={h[:12]} "
+                             f"shot={shot[:12]}")
+                        attempt += 1
+                        if h != pre_hash:
+                            winner = entry
+                            break
+                        client1.tap(BBTN, hold=0.2, gap=0.4)
+                        client1.tap(BBTN, hold=0.2, gap=0.4)
+                        time.sleep(1.0)
+                        if not in_pet():
+                            reopens += 1
+                            note(f"attempt {attempt}: left PET; reopen "
+                                 f"#{reopens}")
+                            if reopens > 3:
+                                note("too many reopens; ending sweep")
+                                break
+                            pet_open()
+                    if winner is not None:
+                        break
                 if winner is not None:
                     break
             check("save_op_changes_file", winner is not None,
