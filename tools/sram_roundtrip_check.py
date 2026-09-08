@@ -192,9 +192,14 @@ def main():
                         client1.tap(DOWN, hold=0.2, gap=0.3)
                     client1.tap(A)
                     time.sleep(2.0)
-                    # Confirm once: if A opened the "Save your game? Yes/No"
-                    # dialog (cursor defaults to Yes), this confirms it; in a
-                    # submenu a second A only moves within SRAM-clean state.
+                    # Confirm twice: Save is a two-step dialog ("Save your
+                    # game? Yes" then "Ok to erase old save data? Yes", both
+                    # defaulting to Yes — witnessed in gate1-S4 attempt-02).
+                    # In other submenus extra As only move within SRAM-clean
+                    # state; a hash change still gates the winner, and the
+                    # winner screenshot must show SAVE UI (packet-verified).
+                    client1.tap(A, hold=0.2, gap=0.5)
+                    time.sleep(1.5)
                     client1.tap(A, hold=0.2, gap=0.5)
                     time.sleep(4.0)  # settle past the ~1s save-flush window
                     h = file_hash(test_sav)
