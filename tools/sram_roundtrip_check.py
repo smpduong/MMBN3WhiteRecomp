@@ -181,14 +181,36 @@ def main():
                  f"scroll={pre_scroll[:16]}->{walk_scroll[:16]}")
             # Advance any story dialog the walk triggered (S14: the Lan's-room
             # trigger leaves a textbox open that interferes with menu nav).
-            # A¹×6 steps through cutscene text; completionists note the shots.
-            for i in range(6):
+            # Loop A until the bottom textbox clears (white_bottom<0.40:
+            # story textbox 0.75 vs gameplay floor 0.16, calibrated), max 20.
+            # A longer cutscene needs its flag-setting END reached (S15's
+            # fixed 6 As stopped mid-cutscene, SRAM never dirtied).
+            def white_bottom():
+                raw = client1.shot_raw(out / "_trigger.ppm")
+                n = tot = 0
+                for y in range(110, 160):
+                    for x in range(240):
+                        i = 3 * (y * 240 + x)
+                        tot += 1
+                        if raw[i] > 200 and raw[i + 1] > 200 and raw[i + 2] > 200:
+                            n += 1
+                return n / tot
+
+            cleared = None
+            for i in range(20):
+                w = white_bottom()
+                if w < 0.40:
+                    cleared = i
+                    break
                 client1.tap(A, hold=0.3, gap=1.5)
             time.sleep(2.0)
             trigger_shot = client1.shot(out / "p1-post-trigger.ppm")
             trigger_scroll = client1.scroll()
-            note(f"post-trigger shot={trigger_shot[:12]} "
+            note(f"trigger cleared after {cleared} advances "
+                 f"(None = still open at 20); "
+                 f"shot={trigger_shot[:12]} "
                  f"scroll={walk_scroll[:16]}->{trigger_scroll[:16]}")
+            res["trigger_cleared_after"] = cleared
 
             # Closed-loop row sweep. S14 design (S1-S13 lessons):
             # - The PET list template is captured FRESH after each pet_open
