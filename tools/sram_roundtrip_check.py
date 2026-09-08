@@ -282,7 +282,9 @@ def main():
         res["failure"] = f"{type(e).__name__}: {e}"
         note(f"FAILED: {res['failure']}")
     finally:
-        for client, proc in ((client1, proc1), (client2, proc2)):
+        res.setdefault("cleanup_exit", {})
+        for tag2, client, proc in (("p1", client1, proc1),
+                                   ("p2", client2, proc2)):
             try:
                 if proc is not None and proc.poll() is None:
                     # Park + drain before quit on all paths (see roundtrip).
@@ -304,6 +306,8 @@ def main():
                         proc.kill()
                         proc.wait(timeout=10)
                         res.setdefault("cleanup_forced", []).append(proc.pid)
+                res["cleanup_exit"][tag2] = proc.poll() if proc else None
+                note(f"[{tag2}] final exit={res['cleanup_exit'][tag2]}")
             except Exception as e:
                 res.setdefault("cleanup_errors", []).append(str(e))
     res["source_sha_after"] = sha_hex(args.save_src)
