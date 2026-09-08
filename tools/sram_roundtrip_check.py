@@ -64,9 +64,13 @@ def launch(out, test_sav, cache_dir, tag, logf):
            "--tcp", str(port)]
     env = dict(__import__("os").environ)
     env["GBARECOMP_HEAL_CACHE"] = str(cache_dir)
+    # Same preload-bypass rationale as roundtrip_check.py (B7 shutdown
+    # sample); D runs keep warm-load ON.
+    env["GBARECOMP_HEAL_WARM_LOAD"] = "0"
     (out / f"{tag}-command.json").write_text(json.dumps(
         {"argv": cmd, "cwd": str(out), "port": port,
-         "env_overrides": {"GBARECOMP_HEAL_CACHE": str(cache_dir)}}, indent=1))
+         "env_overrides": {"GBARECOMP_HEAL_CACHE": str(cache_dir),
+                           "GBARECOMP_HEAL_WARM_LOAD": "0"}}, indent=1))
     so = open(out / f"{tag}-stdout.log", "wb")
     se = open(out / f"{tag}-stderr.log", "wb")
     proc = subprocess.Popen(cmd, cwd=out, env=env, stdin=subprocess.DEVNULL,

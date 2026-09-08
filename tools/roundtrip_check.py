@@ -448,9 +448,14 @@ def main():
            "--tcp", str(port)]
     env = dict(__import__("os").environ)
     env["GBARECOMP_HEAL_CACHE"] = str(cache_dir)
+    # Bypass cache preload: on-demand healing stays active (same code paths),
+    # but the 3828-entry preload backlog no longer wedges the shutdown join
+    # (worker stuck in dlopen; sampled in gate1-B7). D runs keep warm-load ON.
+    env["GBARECOMP_HEAL_WARM_LOAD"] = "0"
     (out / "command.json").write_text(json.dumps(
         {"argv": cmd, "cwd": str(out), "port": port,
-         "env_overrides": {"GBARECOMP_HEAL_CACHE": str(cache_dir)}}, indent=1))
+         "env_overrides": {"GBARECOMP_HEAL_CACHE": str(cache_dir),
+                           "GBARECOMP_HEAL_WARM_LOAD": "0"}}, indent=1))
     note(f"launch: {' '.join(cmd)}")
 
     code, forced = None, False
@@ -523,14 +528,24 @@ def main():
             regs_post = client.regs()
             hash_post = client.state_hash()
             p4 = client.shot(out / "P4_restored.ppm")
-            restore_ok = (regs_post == regs_pre
-                          and hash_post.get("hash") == hash_pre.get("hash")
+            # Memory components must match exactly. The combined 'hash' folds
+            # in g_runtime_cycles, which do_savestate_load deliberately
+            # re-origins to 0 at the load point (differential-oracle clock),
+            # so it can never match across a load by design; compare the five
+            # memory regions instead.
+            mem_keys = ("iwram", "ewram", "vram", "pal", "oam")
+            mem_eq = all(hash_post.get(k) == hash_pre.get(k) for k in mem_keys)
+            mem_detail = {k: hash_post.get(k) == hash_pre.get(k)
+                          for k in mem_keys}
+            restore_ok = (regs_post == regs_pre and mem_eq
                           and st_post.get("frame") == st_pre.get("frame")
                           and p4 == p2 and away)
             check("savestate_restore", restore_ok,
-                  "regs+state_hash+frame+pixels equal saved values; P3!=P2",
-                  f"regs_eq={regs_post == regs_pre} "
-                  f"hash_eq={hash_post.get('hash') == hash_pre.get('hash')} "
+                  "regs+mem regions+frame+pixels equal saved values; P3!=P2 "
+                  "(combined hash excluded: cycles re-origin to 0 on load)",
+                  f"regs_eq={regs_post == regs_pre} mem_eq={mem_eq} "
+                  f"{mem_detail} cycles_pre={hash_pre.get('cycles')} "
+                  f"cycles_post={hash_post.get('cycles')} "
                   f"frame {st_pre.get('frame')}->{st_post.get('frame')} "
                   f"pixels_eq={p4 == p2} moved_away={away}")
             client.call(cmd="continue")

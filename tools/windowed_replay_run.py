@@ -105,6 +105,12 @@ def main():
     ap.add_argument("--load-state", type=Path, required=True)
     ap.add_argument("--save-src", type=Path, required=True)
     ap.add_argument("--assist", default="")
+    ap.add_argument("--warm-load", action="store_true",
+                    help="preload the heal cache (default: bypassed). "
+                         "D runs pass --warm-load (the empty-vs-populated "
+                         "contrast is the measurement); C runs leave it off "
+                         "so the shutdown join is not wedged by the preload "
+                         "backlog (sampled in gate1-B7).")
     ap.add_argument("--timeout", type=float, default=1800.0)
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
@@ -154,6 +160,7 @@ def main():
            if not k.startswith("GBARECOMP_")}
     overrides = {
         "GBARECOMP_HEAL_CACHE": str(cache_dir),
+        "GBARECOMP_HEAL_WARM_LOAD": "1" if args.warm_load else "0",
         "GBARECOMP_INPUT_REPLAY": str(trace_path),
         "GBARECOMP_FRAME_PHASE": str(frame_phase),
         "GBARECOMP_EVENT_PROBE": "1",
