@@ -168,14 +168,40 @@ def main():
                  f"shot={pre_shot[:12]}")
 
             # Closed-loop row sweep (S1-S5 showed blind DOWN-counting never
-            # lands Save: cursor state carries across attempts). Per opener:
-            # fresh PET, UPx10 to the extreme, then single-step DOWN + open +
-            # double-confirm + hash, backing out with B,B to the list after
-            # every step. 12 steps cover all 8 rows with or without wrap;
-            # a PET-presence guard (blue panels) reopens on drift, bounded.
-            # Save completes inside the step (Yes/Yes defaults, witnessed);
-            # the winner screenshot must show SAVE UI (packet-verified).
+            # lands Save: cursor state carries across attempts; S6 showed the
+            # B,B back-out strands us in submenus because the blue guard
+            # cannot tell list-blue from submenu-blue). Per opener: fresh PET,
+            # UPx10 to the extreme, then single-step + open + double-confirm
+            # + hash, backing out to the LIST after every step. List identity
+            # comes from a witnessed luma template (tools/pet_list_template.
+            # json: list-list MAD<0.5 vs list-other MAD>=32, threshold 5.0);
+            # a PET-presence blue guard only triggers full reopens. 12 steps
+            # cover all 8 rows with or without wrap. Save completes inside
+            # the step (Yes/Yes defaults, witnessed); the winner screenshot
+            # must show SAVE UI (packet-verified).
             from roundtrip_check import blue_frac as _blue_frac
+            _tpl = json.load(open(ROOT / "tools" / "pet_list_template.json"))
+            _tgrid, _tnx, _tny = (_tpl["luma"], _tpl["grid_nx"],
+                                  _tpl["grid_ny"])
+            _tthr = _tpl["threshold_mad"]
+
+            def _grid(raw):
+                tot = [0] * (_tnx * _tny)
+                cnt = [0] * (_tnx * _tny)
+                for y in range(160):
+                    for x in range(240):
+                        i = 3 * (y * 240 + x)
+                        c = (y * _tny // 160) * _tnx + (x * _tnx // 240)
+                        tot[c] += (raw[i] + raw[i + 1] + raw[i + 2]) // 3
+                        cnt[c] += 1
+                return [t // c for t, c in zip(tot, cnt)]
+
+            def at_pet_list(path):
+                raw = client1.shot_raw(out / path)
+                g = _grid(raw)
+                mad = sum(abs(a - b) for a, b in zip(g, _tgrid)) / len(g)
+                return mad < _tthr, mad, raw
+
             openers = [("START", START), ("SELECT", SELECT)]
             winner = None
             attempt = 0
@@ -189,14 +215,19 @@ def main():
                 for _ in range(10):
                     client1.tap(UP, hold=0.15, gap=0.25)
 
-            def in_pet():
-                raw = client1.shot_raw(out / "_petguard.ppm")
-                return _blue_frac(raw) > 0.30
+            def back_to_list():
+                for _ in range(6):
+                    ok, mad, _raw = at_pet_list("_backcheck.ppm")
+                    if ok:
+                        return True
+                    client1.tap(BBTN, hold=0.2, gap=0.4)
+                    time.sleep(0.8)
+                return False
 
             for oname, okey in openers:
                 for sweep_dir, skey in (("down", DOWN), ("up", UP)):
                     pet_open()
-                    reopens = 0
+                    restarts = 0
                     for step in range(12):
                         client1.tap(skey, hold=0.2, gap=0.3)
                         client1.tap(A)
@@ -221,15 +252,12 @@ def main():
                         if h != pre_hash:
                             winner = entry
                             break
-                        client1.tap(BBTN, hold=0.2, gap=0.4)
-                        client1.tap(BBTN, hold=0.2, gap=0.4)
-                        time.sleep(1.0)
-                        if not in_pet():
-                            reopens += 1
-                            note(f"attempt {attempt}: left PET; reopen "
-                                 f"#{reopens}")
-                            if reopens > 3:
-                                note("too many reopens; ending sweep")
+                        if not back_to_list():
+                            restarts += 1
+                            note(f"attempt {attempt}: list not recovered; "
+                                 f"full reset #{restarts}")
+                            if restarts > 2:
+                                note("too many resets; ending sweep")
                                 break
                             pet_open()
                     if winner is not None:
