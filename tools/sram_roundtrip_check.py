@@ -19,10 +19,13 @@ Flow (all evidence under build/rt_sram/<stamp>/):
     FAILS as BLOCKED (no in-game save staged) with full evidence.
  6. on a save: confirm through any completion dialog (bounded A taps until the
     file hash is stable 5s), clean quit (pause+quit, patient bounded wait,
-    exit 0 required; forced termination fails the run)
+    exit 0 required; forced termination fails the run). TCP sessions flush
+    SRAM at EXIT (debug path keeps exit-only flush), so the save bytes are
+    hashed AFTER p1 exits and must differ from the source (S18: 310 bytes).
  7. proc2: genuinely new process with the SAME test.sav; Continue; verify the
-    save bytes are stable across relaunch+load, the net scene is re-entered,
-    and (as observed evidence) whether the pre-save scroll position persisted.
+    save bytes are stable across relaunch+load, and the AT-ENTRY area matches
+    the post-save area (frac<0.30; the walk-proof walk afterwards moves away
+    by design, so persistence compares pre-walk shots).
 
 Overall PASS requires: scene entry in both processes, a save-op hash change,
 clean exits, source untouched, bytes stable across relaunch, scene re-entered.
@@ -81,14 +84,16 @@ def launch(out, test_sav, cache_dir, tag, logf):
 
 
 def enter_scene(client, out, proc, tag, note):
-    """Shared verified navigation; returns (ok, menu_hash, p1_hash).
-    Hashes are '' when entry fails (never None — callers subscript)."""
+    """Shared verified navigation; returns (ok, menu_hash, p1_hash, entry).
+    Hashes/entry are '' when entry fails (never None — callers subscript).
+    entry is the at-entry gameplay shot filename (pre-walk) for area
+    persistence compares."""
     try:
-        menu_h, p1_h, _net = drive_to_net(client, out, proc, tag, note)
-        return True, menu_h, p1_h
+        menu_h, p1_h, net = drive_to_net(client, out, proc, tag, note)
+        return True, menu_h, p1_h, net.get("entry_shot", "")
     except Fail as e:
         note(f"[{tag}] scene entry failed: {e}")
-        return False, "", ""
+        return False, "", "", ""
 
 
 def graceful_quit(client, proc, tag, note, wait_cap=300.0):
@@ -156,7 +161,7 @@ def main():
         proc1, port1, so1, se1 = launch(out, test_sav, cache_dir, "p1", logf)
         try:
             client1 = Client(port1, proc1)
-            ok1, menu1, p1 = enter_scene(client1, out, proc1, "p1", note)
+            ok1, menu1, p1, _e1 = enter_scene(client1, out, proc1, "p1", note)
             check("p1_scene_entry", ok1, "menu->net scene per drive_to_net",
                   f"menu={menu1[:12]} P1={p1[:12]}")
             if not ok1:
@@ -462,28 +467,47 @@ def main():
             if code1 != 0 or forced1:
                 raise Fail("p1 did not exit cleanly")
 
+            # TCP sessions flush SRAM at EXIT (the debug path keeps
+            # exit-only flush), so the save bytes land here — not during
+            # the witnessed completion. S18 proved it: mid-session reads
+            # stayed 8340… while the post-exit file was 485e… (310 bytes).
+            post_exit_hash = file_hash(test_sav)
+            res["post_exit_hash"] = post_exit_hash
+            changed = (post_exit_hash != src_before)
+            check("save_bytes_persisted_at_exit", changed,
+                  f"post-exit test.sav != source {src_before[:16]}",
+                  f"observed {post_exit_hash[:16]}")
+            if not changed:
+                note("no-op write (state == file); area persistence below "
+                     "still carries the roundtrip proof")
+
             # ---- proc2: genuinely new process, same test.sav ----
-            res["relaunch_file"] = saved_hash
+            res["relaunch_file"] = post_exit_hash
             proc2, port2, so2, se2 = launch(out, test_sav, cache_dir, "p2", logf)
             client2 = Client(port2, proc2)
-            ok2, menu2, p1b = enter_scene(client2, out, proc2, "p2", note)
+            ok2, menu2, p1b, entry2 = enter_scene(client2, out, proc2, "p2", note)
             check("p2_scene_entry", ok2, "menu->net scene per drive_to_net",
                   f"menu={menu2[:12]} P1={p1b[:12]}")
+            if not ok2:
+                raise Fail("p2 did not reach gameplay")
             after_hash = file_hash(test_sav)
-            after_area = client2.shot_raw(out / "p2-post-continue.ppm")
-            after_scroll = client2.scroll()
-            stable = (after_hash == saved_hash)
-            area_frac = _frac(saved_area, after_area)
+            # Area persistence against the AT-ENTRY shot (pre-walk): the
+            # walk-proof walk legitimately moves away afterwards.
+            entry_raw = (out / entry2).read_bytes().split(b"\n", 3)[3]
+            after_entry = entry_raw
+            stable = (after_hash == post_exit_hash)
+            area_frac = _frac(saved_area, after_entry)
             # Same area re-entered: mostly identical pixels (animation
             # shimmer ≪ area change). Threshold 0.30 separates same-area
             # (<0.05 observed for parked repeats) from area changes (>0.9).
             area_same = area_frac < 0.30
             check("save_bytes_stable_across_relaunch", stable,
-                  f"test.sav == post-save bytes {saved_hash[:16]}",
+                  f"test.sav == post-exit bytes {post_exit_hash[:16]}",
                   f"observed {after_hash[:16]}")
             check("relaunch_reenters_saved_area", area_same,
                   "post-Continue area matches post-save area (frac<0.30)",
                   f"area_frac={area_frac:.4f}")
+            after_scroll = client2.scroll()
             res["position_evidence"] = {
                 "saved_scroll": saved_scroll, "after_scroll": after_scroll,
                 "area_frac": round(area_frac, 4),

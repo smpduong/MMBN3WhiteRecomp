@@ -253,11 +253,13 @@ def drive_to_net(client, out, proc, tag, note):
         # PROVEN by walking (scroll delta) rather than by color: blue-water
         # areas (pier: blue 0.575, witnessed S17) fail the PET blue gate
         # while PET menus never scroll. Area-agnostic and behavior-based.
+        # The pre-walk shot is saved as _entry for area-persistence compare.
         note(f"[{tag}] A-select failed scene check; B-close + walk-proof")
         client.tap(0x3FD, hold=0.3, gap=1.0)
         time.sleep(3)
+        w0 = client.shot_raw(out / f"{tag}-_entry.ppm")
         s0 = client.scroll()
-        w0 = client.shot_raw(out / f"{tag}-_walk0.ppm")
+        w0b = client.shot_raw(out / f"{tag}-_walk0.ppm")
         client.call(cmd="set_keyinput", value=0x3BF)
         time.sleep(2.5)
         w1 = client.shot_raw(out / f"{tag}-_walk1.ppm")
@@ -278,6 +280,7 @@ def drive_to_net(client, out, proc, tag, note):
                "pcs": pcs, "cart_hits": len(cart),
                "f0": st1.get("frame"), "f1": st2.get("frame"),
                "route": "B-close+walk-proven",
+               "entry_shot": f"{tag}-_entry.ppm",
                "scroll": f"{s0[:16]}->{s1[:16]}"}
         note(f"[{tag}] walk-proof: ok={walk_ok} {net}")
         p1_raw = w1 if walk_ok else None
@@ -287,6 +290,11 @@ def drive_to_net(client, out, proc, tag, note):
     note(f"[{tag}] gameplay entered")
     with open(out / f"{tag}-P1_net.ppm", "wb") as f:
         f.write(f"P6\n240 160\n255\n".encode() + p1_raw)
+    if "entry_shot" not in net:
+        # A-select path: the accepted scene shot doubles as the entry shot.
+        import shutil as _sh
+        _sh.copyfile(out / f"{tag}-_net_try.ppm", out / f"{tag}-_entry.ppm")
+        net["entry_shot"] = f"{tag}-_entry.ppm"
     return menu_h, hashlib.sha256(p1_raw).hexdigest(), net
 
 
