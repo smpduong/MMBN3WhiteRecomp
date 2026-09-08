@@ -344,36 +344,40 @@ def main():
                     pet_open()
                     restarts = 0
                     for step in range(12):
-                        # One row step, open it, then confirm ONLY while a
-                        # witnessed save dialog is on screen (up to 5
-                        # rounds): late-appearing dialogs are caught, other
-                        # submenus are left alone after one exploratory A.
+                        # One row step, open it, then drive the save dialogs
+                        # to completion: after every A, check completion
+                        # FIRST (it auto-dismisses in ~2s; S16 missed it at
+                        # +3s), then the dialog templates, then the hash.
+                        # A witnessed chain dialog->...->completion wins even
+                        # when the game rewrites byte-identical SRAM (S12:
+                        # state == file is a no-op write, not a failed save).
                         client1.tap(skey, hold=0.2, gap=0.3)
                         client1.tap(A)
                         time.sleep(2.0)
                         h, confirmed = file_hash(test_sav), 0
-                        for rnd in range(5):
+                        saw_dialog = False
+                        for rnd in range(6):
                             if h != pre_hash:
+                                break
+                            comp, cmad = save_complete_shown(
+                                f"_comp-{attempt:02d}-{rnd}.ppm")
+                            if comp and (saw_dialog or confirmed > 0):
+                                completion_witnessed[0] = True
+                                note(f"attempt {attempt} round {rnd}: SAVE "
+                                     f"COMPLETION shown (cmad={cmad:.1f})")
                                 break
                             dlg, dmad = save_dialog_open(
                                 f"_dlg-{attempt:02d}-{rnd}.ppm")
                             note(f"attempt {attempt} round {rnd}: "
-                                 f"dialog={dlg} dmad={dmad:.1f}")
-                            if not dlg:
+                                 f"dialog={dlg} dmad={dmad:.1f} "
+                                 f"comp={comp} cmad={cmad:.1f}")
+                            if not dlg and not comp:
                                 break
                             client1.tap(A, hold=0.2, gap=0.5)
-                            time.sleep(3.0)
+                            time.sleep(1.5)
                             confirmed += 1
+                            saw_dialog = saw_dialog or dlg
                             h = file_hash(test_sav)
-                        # Completion screen witnesses the save even when the
-                        # game rewrites byte-identical SRAM (S12).
-                        comp, cmad = save_complete_shown(
-                            f"_comp-{attempt:02d}.ppm")
-                        if comp and confirmed > 0:
-                            completion_witnessed[0] = True
-                            note(f"attempt {attempt}: SAVE COMPLETION shown "
-                                 f"(cmad={cmad:.1f}) after {confirmed} "
-                                 f"confirms")
                         # The SRAM write can flush seconds after the game's
                         # completion message (witnessed S12 attempt 6: message
                         # shown, file unchanged at first read, mtime updated
