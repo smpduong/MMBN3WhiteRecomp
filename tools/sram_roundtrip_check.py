@@ -186,6 +186,10 @@ def main():
             _tthr = _tpl["threshold_mad"]
             _txmin = _tpl.get("mask_x_min", 0)
             _back_n = [0]
+            _dtpl = json.load(open(ROOT / "tools" / "save_dialog_templates.json"))
+            _dgrids = list(_dtpl["templates"].values())
+            _dnx, _dny, _dthr = (_dtpl["grid_nx"], _dtpl["grid_ny"],
+                                 _dtpl["threshold_mad"])
 
             def _grid(raw):
                 tot = [0] * (_tnx * _tny)
@@ -210,6 +214,27 @@ def main():
                 raw = client1.shot_raw(out / path)
                 mad = _mad(_grid(raw))
                 return mad < _tthr, mad, raw
+
+            def _dgrid(raw):
+                tot = [0] * (_dnx * _dny)
+                cnt = [0] * (_dnx * _dny)
+                for y in range(160):
+                    for x in range(240):
+                        i = 3 * (y * 240 + x)
+                        c = (y * _dny // 160) * _dnx + (x * _dnx // 240)
+                        tot[c] += (raw[i] + raw[i + 1] + raw[i + 2]) // 3
+                        cnt[c] += 1
+                return [t / c for t, c in zip(tot, cnt)]
+
+            def _dmad(g):
+                return min(sum(abs(a - b) for a, b in zip(g, t)) / len(g)
+                           for t in _dgrids)
+
+            def save_dialog_open(path):
+                # Either witnessed dialog variant (Yes/No + erase Yes/No).
+                raw = client1.shot_raw(out / path)
+                mad = _dmad(_dgrid(raw))
+                return mad < _dthr, mad
 
             openers = [("START", START), ("SELECT", SELECT)]
             winner = None
@@ -245,25 +270,41 @@ def main():
                     pet_open()
                     restarts = 0
                     for step in range(12):
+                        # One row step, open it, then confirm ONLY while a
+                        # witnessed save dialog is on screen (up to 5
+                        # rounds): late-appearing dialogs are caught, other
+                        # submenus are left alone after one exploratory A.
                         client1.tap(skey, hold=0.2, gap=0.3)
                         client1.tap(A)
-                        time.sleep(1.5)
-                        client1.tap(A, hold=0.2, gap=0.5)
+                        time.sleep(2.0)
+                        h, confirmed = file_hash(test_sav), 0
+                        for rnd in range(5):
+                            if h != pre_hash:
+                                break
+                            dlg, dmad = save_dialog_open(
+                                f"_dlg-{attempt:02d}-{rnd}.ppm")
+                            note(f"attempt {attempt} round {rnd}: "
+                                 f"dialog={dlg} dmad={dmad:.1f}")
+                            if not dlg:
+                                break
+                            client1.tap(A, hold=0.2, gap=0.5)
+                            time.sleep(3.0)
+                            confirmed += 1
+                            h = file_hash(test_sav)
                         time.sleep(1.0)
-                        client1.tap(A, hold=0.2, gap=0.5)
-                        time.sleep(4.0)
                         h = file_hash(test_sav)
                         shot = client1.shot(
                             out / f"p1-attempt-{attempt:02d}.ppm")
                         entry = {"attempt": attempt, "opener": oname,
                                  "sweep": sweep_dir, "step": step,
+                                 "confirms": confirmed,
                                  "file_hash": h, "changed": h != pre_hash,
                                  "shot": shot[:12]}
                         res["attempts"].append(entry)
                         note(f"attempt {attempt}: opener={oname} "
                              f"sweep={sweep_dir} step={step} "
-                             f"changed={h != pre_hash} file={h[:12]} "
-                             f"shot={shot[:12]}")
+                             f"confirms={confirmed} changed={h != pre_hash} "
+                             f"file={h[:12]} shot={shot[:12]}")
                         attempt += 1
                         if h != pre_hash:
                             winner = entry
