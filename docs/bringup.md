@@ -258,6 +258,16 @@ poison s_failed); a later real miss compiles fresh. Verified: 3583 queued in
 correctly, strict 30f still FULLY_STATIC (strict path untouched, returns
 before worker start). setup.sh pin moved to df579db.
 
+## R23 — net-floor scroll measured; playtest deferred (2026-09-07)
+Loaded the live save headless, walked the net with held input: MegaMan moves
+and the floor scrolls with him (verified visually across stepped frames).
+Per-frame displacement is sub-tile (smooth at guest cadence); no affine or
+HBlank anomaly visible in captures. Whether the live-window choppiness
+persists with R15 native is for the deferred playtest — headless pacing
+differs fundamentally (no vsync throttle), so smoothness cannot be judged
+here. If choppy-when-warm reproduces live, next instrument is present
+timestamps vs guest frames in the runner.
+
 ## Historical backend status before playtesting (superseded by R18–R21)
 
 The following list records the earlier state only. R18 established that
