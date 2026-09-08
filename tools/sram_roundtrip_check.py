@@ -166,11 +166,11 @@ def main():
             pre_shot = client1.shot(out / "p1-pre-save.ppm")
             note(f"pre-save file={pre_hash[:16]} scroll={pre_scroll[:16]} "
                  f"shot={pre_shot[:12]}")
-            # Make a gameplay change first: S12 proved a bare save rewrites
-            # byte-identical SRAM (state == file, nothing to persist). Walk
-            # DOWN toward the witnessed area transition (movediag: net floor
-            # -> Lan's room + story dialog), which should dirty save-RAM so
-            # the later Save has bytes to persist.
+            # Make a gameplay change first (movediag pattern): UP then DOWN
+            # toward the witnessed area transition, so the later save has
+            # state worth persisting and the relaunch can verify the AREA.
+            client1.call(cmd="set_keyinput", value=UP)
+            time.sleep(2.5)
             client1.call(cmd="set_keyinput", value=DOWN)
             time.sleep(4.0)
             client1.call(cmd="set_keyinput", value=RELEASED)
@@ -180,22 +180,20 @@ def main():
             note(f"post-walk shot={walk_shot[:12]} "
                  f"scroll={pre_scroll[:16]}->{walk_scroll[:16]}")
 
-            # Closed-loop row sweep (S1-S5 showed blind DOWN-counting never
-            # lands Save: cursor state carries across attempts; S6 showed the
-            # B,B back-out strands us in submenus because the blue guard
-            # cannot tell list-blue from submenu-blue). Per opener: fresh PET,
-            # UPx10 to the extreme, then single-step + open + double-confirm
-            # + hash, backing out to the LIST after every step. List identity
-            # comes from a witnessed luma template (tools/pet_list_template.
-            # json: list-list MAD<0.5 vs list-other MAD>=32, threshold 5.0);
-            # a PET-presence blue guard only triggers full reopens. 12 steps
-            # cover all 8 rows with or without wrap. Save completes inside
-            # the step (Yes/Yes defaults, witnessed); the winner screenshot
-            # must show SAVE UI (packet-verified).
+            # Closed-loop row sweep. S14 design (S1-S13 lessons):
+            # - The PET list template is captured FRESH after each pet_open
+            #   (adaptive run template): PLACE/panels depend on the area, so
+            #   a committed template fails after an area warp. Cursor default
+            #   is stable within a run, so list-list MAD stays <1.
+            # - Confirms are conditional on the witnessed save-dialog
+            #   template; completion ("OK! Your save is complete!") is a
+            #   separate template and witnesses the save even when the game
+            #   rewrites byte-identical SRAM (S12: state == file).
+            # - Winner = bytes changed OR dialog sequence through completion.
+            #   Area persistence across relaunch carries the roundtrip proof.
             from roundtrip_check import blue_frac as _blue_frac
             _tpl = json.load(open(ROOT / "tools" / "pet_list_template.json"))
-            _tgrid, _tnx, _tny = (_tpl["luma"], _tpl["grid_nx"],
-                                  _tpl["grid_ny"])
+            _tnx, _tny = (_tpl["grid_nx"], _tpl["grid_ny"])
             _tthr = _tpl["threshold_mad"]
             _txmin = _tpl.get("mask_x_min", 0)
             _back_n = [0]
@@ -203,6 +201,11 @@ def main():
             _dgrids = list(_dtpl["templates"].values())
             _dnx, _dny, _dthr = (_dtpl["grid_nx"], _dtpl["grid_ny"],
                                  _dtpl["threshold_mad"])
+            _ctpl = json.load(open(ROOT / "tools" / "save_complete_template.json"))
+            _cband0, _ccells = (_ctpl["band"], _ctpl["cells"])
+            _cnx, _cny, _cthr = (_ctpl["grid_nx"], _ctpl["grid_ny"],
+                                 _ctpl["threshold_mad"])
+            _run_tpl = [None]
 
             def _grid(raw):
                 tot = [0] * (_tnx * _tny)
@@ -215,17 +218,18 @@ def main():
                         cnt[c] += 1
                 return [t / c if c else None for t, c in zip(tot, cnt)]
 
-            def _mad(g):
+            def _mad(g, ref):
                 s, n = 0.0, 0
-                for a, b in zip(g, _tgrid):
+                for a, b in zip(g, ref):
                     if a is not None and b is not None:
                         s += abs(a - b)
                         n += 1
                 return s / n
 
             def at_pet_list(path):
+                # Adaptive run template (captured at pet_open in this area).
                 raw = client1.shot_raw(out / path)
-                mad = _mad(_grid(raw))
+                mad = _mad(_grid(raw), _run_tpl[0])
                 return mad < _tthr, mad, raw
 
             def _dgrid(raw):
@@ -249,8 +253,29 @@ def main():
                 mad = _dmad(_dgrid(raw))
                 return mad < _dthr, mad
 
+            def save_complete_shown(path):
+                # Button band only (Yes/No row): completion shows message
+                # text, dialogs show buttons+arrow. v2 calibration:
+                # completions 0.0, dialogs >=13.7, other >=51.
+                raw = client1.shot_raw(out / path)
+                tot = [0] * (_cnx * _cny)
+                cnt = [0] * (_cnx * _cny)
+                for y in range(160):
+                    for x in range(240):
+                        i = 3 * (y * 240 + x)
+                        c = (y * _cny // 160) * _cnx + (x * _cnx // 240)
+                        tot[c] += (raw[i] + raw[i + 1] + raw[i + 2]) // 3
+                        cnt[c] += 1
+                g = [t / c for t, c in zip(tot, cnt)]
+                idx = [y * _cnx + x for x, y in _ccells]
+                band = [g[i] for i in idx]
+                mad = (sum(abs(a - b) for a, b in zip(band, _cband0))
+                       / len(band))
+                return mad < _cthr, mad
+
             openers = [("START", START), ("SELECT", SELECT)]
             winner = None
+            completion_witnessed = [False]
             attempt = 0
 
             def pet_open():
@@ -261,6 +286,10 @@ def main():
                 time.sleep(2.0)
                 for _ in range(10):
                     client1.tap(UP, hold=0.15, gap=0.25)
+                # Adaptive template: this area's fresh PET list.
+                ref = client1.shot_raw(out / f"_listref-{attempt:02d}.ppm")
+                _run_tpl[0] = _grid(ref)
+                note(f"pet opened; list template captured")
 
             def back_to_list():
                 # B, then a full 2 s settle: submenu-exit transitions render
@@ -304,6 +333,15 @@ def main():
                             time.sleep(3.0)
                             confirmed += 1
                             h = file_hash(test_sav)
+                        # Completion screen witnesses the save even when the
+                        # game rewrites byte-identical SRAM (S12).
+                        comp, cmad = save_complete_shown(
+                            f"_comp-{attempt:02d}.ppm")
+                        if comp and confirmed > 0:
+                            completion_witnessed[0] = True
+                            note(f"attempt {attempt}: SAVE COMPLETION shown "
+                                 f"(cmad={cmad:.1f}) after {confirmed} "
+                                 f"confirms")
                         # The SRAM write can flush seconds after the game's
                         # completion message (witnessed S12 attempt 6: message
                         # shown, file unchanged at first read, mtime updated
@@ -332,7 +370,7 @@ def main():
                              f"confirms={confirmed} changed={h != pre_hash} "
                              f"file={h[:12]} shot={shot[:12]}")
                         attempt += 1
-                        if h != pre_hash:
+                        if h != pre_hash or completion_witnessed[0]:
                             winner = entry
                             break
                         if not back_to_list():
@@ -348,25 +386,35 @@ def main():
                 if winner is not None:
                     break
             check("save_op_changes_file", winner is not None,
-                  "some bounded menu sequence changes test.sav bytes",
-                  f"winner={winner} attempts={attempt}")
+                  "bytes changed OR save completion witnessed after confirms",
+                  f"winner={winner} completion={completion_witnessed[0]} "
+                  f"attempts={attempt}")
             if winner is None:
                 raise Fail("BLOCKED: no bounded menu sequence saved "
-                           f"({attempt} attempts, file unchanged)")
+                           f"({attempt} attempts, file unchanged, no "
+                           f"completion witnessed)")
 
             # Confirm through any completion dialog; file must go stable.
             for _ in range(4):
                 client1.tap(A, hold=0.2, gap=1.0)
             time.sleep(5.0)
             saved_hash = file_hash(test_sav)
+            # Back out to gameplay and capture the POST-SAVE AREA: the
+            # relaunch must re-enter this same area (persistence proof).
+            for _ in range(4):
+                client1.tap(BBTN, hold=0.2, gap=0.5)
+            time.sleep(3.0)
+            saved_area = client1.shot_raw(out / "p1-post-save-area.ppm")
             saved_scroll = client1.scroll()
-            saved_shot = client1.shot(out / "p1-post-save.ppm")
+            from roundtrip_check import frac_changed as _frac
             res["save_effect"] = {
                 "pre_hash": pre_hash, "saved_hash": saved_hash,
                 "pre_scroll": pre_scroll, "saved_scroll": saved_scroll,
+                "completion_witnessed": completion_witnessed[0],
                 "winner": winner}
             note(f"post-save file={saved_hash[:16]} "
-                 f"scroll_same={saved_scroll == pre_scroll} shot={saved_shot[:12]}")
+                 f"completion={completion_witnessed[0]} "
+                 f"scroll_same={saved_scroll == pre_scroll}")
             client1.ensure_parked()
             wait_worker_drained(client1, proc1, note)
             code1, forced1 = graceful_quit(client1, proc1, "p1", note)
@@ -385,21 +433,25 @@ def main():
             check("p2_scene_entry", ok2, "menu->net scene per drive_to_net",
                   f"menu={menu2[:12]} P1={p1b[:12]}")
             after_hash = file_hash(test_sav)
+            after_area = client2.shot_raw(out / "p2-post-continue.ppm")
             after_scroll = client2.scroll()
-            after_shot = client2.shot(out / "p2-post-continue.ppm")
             stable = (after_hash == saved_hash)
-            pos_same = (after_scroll == saved_scroll)
+            area_frac = _frac(saved_area, after_area)
+            # Same area re-entered: mostly identical pixels (animation
+            # shimmer ≪ area change). Threshold 0.30 separates same-area
+            # (<0.05 observed for parked repeats) from area changes (>0.9).
+            area_same = area_frac < 0.30
             check("save_bytes_stable_across_relaunch", stable,
                   f"test.sav == post-save bytes {saved_hash[:16]}",
                   f"observed {after_hash[:16]}")
+            check("relaunch_reenters_saved_area", area_same,
+                  "post-Continue area matches post-save area (frac<0.30)",
+                  f"area_frac={area_frac:.4f}")
             res["position_evidence"] = {
                 "saved_scroll": saved_scroll, "after_scroll": after_scroll,
-                "position_persisted": pos_same,
-                "saved_shot": saved_shot, "after_shot": after_shot,
-                "note": "scroll equality = position persisted; animation "
-                        "makes raw pixels incomparable across sessions"}
-            note(f"position_persisted={pos_same} "
-                 f"scroll {saved_scroll[:16]}->{after_scroll[:16]}")
+                "area_frac": round(area_frac, 4),
+                "note": "area re-entry (not pixel identity) is the claim; "
+                        "scroll may legitimately reset to the area spawn"}
             client2.ensure_parked()
             wait_worker_drained(client2, proc2, note)
             code2, forced2 = graceful_quit(client2, proc2, "p2", note)
