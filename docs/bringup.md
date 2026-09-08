@@ -268,6 +268,25 @@ differs fundamentally (no vsync throttle), so smoothness cannot be judged
 here. If choppy-when-warm reproduces live, next instrument is present
 timestamps vs guest frames in the runner.
 
+## R24 — first deliverable: build, callback fix, strict, roundtrip (2026-09-08)
+Engine (uncommitted, same tree): removed fprintf+mutex drain of pull
+observations from the SDL audio RT callback; drain stays on the producer
+push path + shutdown-after-device-stop. Bounded storage + drop accounting
+kept; producer/consumer share audio_mtx consistently. Preroll already 0 in
+tree (Codex). Build exit 0, 27/27 CTest green.
+Strict 300f (fresh process, real BIOS, isolated save): FULLY_STATIC 0/0/0.
+Save/restart/load (disposable copy of player save, never the original):
+Continue loads net area; movement confirmed; savestate save/load restores
+BIT-EXACT frame (P4==P2); scene animates after; pause parks (status verified)
+and unpause resumes; graceful quit needs patience (worker join waits out an
+in-flight gcc compile — 20s wait SIGKILLed, longer wait exits 0 WITH frag).
+Player save untouched (hash-verified). Test save + states under build/.
+Open observations: parked-frame sub-visible shimmer (<=33 LSB, green floor
+pixels; memory frozen, screenshots otherwise deterministic) — pause proof
+rests on parked:true status + exact restore, not pixel match. Virus
+materialization + portrait fade still need live/staged capture (mosaic unit
+tests pass; blind navigation did not reach a battle).
+
 ## Historical backend status before playtesting (superseded by R18–R21)
 
 The following list records the earlier state only. R18 established that
