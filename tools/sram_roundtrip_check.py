@@ -185,6 +185,7 @@ def main():
                                   _tpl["grid_ny"])
             _tthr = _tpl["threshold_mad"]
             _txmin = _tpl.get("mask_x_min", 0)
+            _back_n = [0]
 
             def _grid(raw):
                 tot = [0] * (_tnx * _tny)
@@ -227,11 +228,14 @@ def main():
                 # B, then a full 2 s settle: submenu-exit transitions render
                 # intermediate frames that flunk the template and cause
                 # overshoot to gameplay (witnessed in S7: 0.8 s was short).
+                # Every check frame is retained (post-mortem labeling).
                 for _ in range(6):
-                    ok, mad, _raw = at_pet_list("_backcheck.ppm")
+                    _back_n[0] += 1
+                    bp = f"_back-{attempt:02d}-{_back_n[0]:02d}.ppm"
+                    ok, mad, _raw = at_pet_list(bp)
                     if ok:
                         return True
-                    note(f"back-out: mad={mad:.1f}, pressing B")
+                    note(f"back-out: mad={mad:.1f} ({bp}), pressing B")
                     client1.tap(BBTN, hold=0.2, gap=0.4)
                     time.sleep(2.0)
                 return False
