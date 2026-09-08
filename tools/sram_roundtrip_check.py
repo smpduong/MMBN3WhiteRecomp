@@ -216,12 +216,16 @@ def main():
                     client1.tap(UP, hold=0.15, gap=0.25)
 
             def back_to_list():
+                # B, then a full 2 s settle: submenu-exit transitions render
+                # intermediate frames that flunk the template and cause
+                # overshoot to gameplay (witnessed in S7: 0.8 s was short).
                 for _ in range(6):
                     ok, mad, _raw = at_pet_list("_backcheck.ppm")
                     if ok:
                         return True
+                    note(f"back-out: mad={mad:.1f}, pressing B")
                     client1.tap(BBTN, hold=0.2, gap=0.4)
-                    time.sleep(0.8)
+                    time.sleep(2.0)
                 return False
 
             for oname, okey in openers:
