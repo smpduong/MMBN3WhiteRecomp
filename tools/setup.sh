@@ -16,7 +16,7 @@
 set -eu
 
 ENGINE_REPO="https://github.com/smpduong/gbarecomp.git"
-ENGINE_REV="d16961d361352a1c8e4f89af57bb9cded32f17fb"
+ENGINE_REV="df579db5ce18cdffc017fa4502320cb0f42c769b"
 ARM_SUB_REV="14be3cfbd889edf8bf74a83b7deb728539fe4c80"
 ROM_SHA1="ff45038ae6d01cde4eae25a02dcb8bed29e07a6f"
 ROM_SIZE="8388608"

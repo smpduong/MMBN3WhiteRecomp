@@ -247,6 +247,17 @@ window opened — this, not the BIOS intro, dominates cold boot and grows with
 the corpus. Warm-load bypass exists only as uncommitted Codex env work;
 proper fix is faster preload (engine perf), not bypass (would re-storm).
 
+## R23 — background cache preload: 141s boot block -> 4ms queue (2026-09-07)
+Warm load did 3000+ synchronous extent-revalidations + dlopens on the startup
+path. Reworked in fork (df579db): init thread only parses filenames + resolves
+immutable regions and enqueues load-only items; the existing worker dlopens in
+the background and results install at frame boundaries via the ready-queue
+drain (g_healed stays game-thread-only). Load failures swallow silently (never
+poison s_failed); a later real miss compiles fresh. Verified: 3583 queued in
+4ms, background drain reaches healed=3585 during boot, title renders
+correctly, strict 30f still FULLY_STATIC (strict path untouched, returns
+before worker start). setup.sh pin moved to df579db.
+
 ## Historical backend status before playtesting (superseded by R18–R21)
 
 The following list records the earlier state only. R18 established that
