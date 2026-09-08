@@ -183,6 +183,11 @@ def main():
                     for _ in range(downs):
                         client1.tap(DOWN, hold=0.2, gap=0.3)
                     client1.tap(A)
+                    time.sleep(2.0)
+                    # Confirm once: if A opened the "Save your game? Yes/No"
+                    # dialog (cursor defaults to Yes), this confirms it; in a
+                    # submenu a second A only moves within SRAM-clean state.
+                    client1.tap(A, hold=0.2, gap=0.5)
                     time.sleep(4.0)  # settle past the ~1s save-flush window
                     h = file_hash(test_sav)
                     shot = client1.shot(out / f"p1-attempt-{attempt:02d}.ppm")
