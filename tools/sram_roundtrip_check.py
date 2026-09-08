@@ -168,7 +168,9 @@ def main():
                  f"shot={pre_shot[:12]}")
 
             # Bounded exploration matrix: menu opener, then cursor Downs, A,
-            # settle past the periodic save-flush window, hash the file.
+            # settle past the periodic save-flush window, hash the file. The
+            # PET menu lists Save 8th (ChipFolder/SubChip/Library/MegaMan/
+            # E-mail/Key Item/Comm./Save), so sweep 0-8 Downs per opener.
             openers = [("START", START), ("SELECT", SELECT), ("L", LB),
                        ("R", RB)]
             winner = None
@@ -177,7 +179,7 @@ def main():
                 client1.tap(okey)
                 time.sleep(2.0)
                 base = client1.shot(out / f"p1-explore-{oname}.ppm")
-                for downs in range(6):
+                for downs in range(9):
                     for _ in range(downs):
                         client1.tap(DOWN, hold=0.2, gap=0.3)
                     client1.tap(A)
