@@ -279,12 +279,19 @@ def main():
         for client, proc in ((client1, proc1), (client2, proc2)):
             try:
                 if proc is not None and proc.poll() is None:
+                    # Park + drain before quit on all paths (see roundtrip).
+                    try:
+                        if client is not None:
+                            client.ensure_parked(timeout_s=60.0)
+                            wait_worker_drained(client, proc, note, cap_s=180.0)
+                    except Exception as e:
+                        note(f"drain before quit failed: {e}")
                     if client is not None:
                         try:
                             client.close()
                         except Exception:
                             pass
-                    t_end = time.monotonic() + 60
+                    t_end = time.monotonic() + 420
                     while time.monotonic() < t_end and proc.poll() is None:
                         time.sleep(2)
                     if proc.poll() is None:

@@ -370,15 +370,20 @@ def net_check(client, proc, out, tag, note, shot_name, banned, title_raw):
     st1 = client.status()
     time.sleep(2.0)
     st2 = client.status()
-    pc = int(st2.get("pc", "0x0"), 16)
+    # The per-frame audio mixer lives in IWRAM, so one parked PC sample is
+    # often IWRAM even in gameplay. Sample 3x: cart PCs prove game code runs.
+    pcs = [st1.get("pc"), st2.get("pc")]
+    time.sleep(1.0)
+    pcs.append(client.status().get("pc"))
+    cart = [p for p in pcs
+            if isinstance(p, str) and 0x08000000 <= int(p, 16) <= 0x09FFFFFF]
     ch = hashlib.sha256(cand).hexdigest()
     ev = {"hash": ch, "luma": round(lum, 1), "blue_frac": round(blue, 3),
           "frac_vs_title": round(tvs, 3),
-          "run": st2.get("run"), "pc": st2.get("pc"),
+          "run": st2.get("run"), "pcs": pcs, "cart_hits": len(cart),
           "f0": st1.get("frame"), "f1": st2.get("frame")}
     ok = (ch not in banned and lum > 60.0 and blue < 0.40 and tvs > 0.25
-          and st2.get("run") == "running"
-          and 0x08000000 <= pc <= 0x09FFFFFF
+          and st2.get("run") == "running" and len(cart) >= 1
           and isinstance(ev["f1"], int) and ev["f1"] > ev["f0"])
     note(f"[{tag}] scene check {shot_name}: ok={ok} {ev}")
     return (cand, ev) if ok else (None, ev)
@@ -461,8 +466,9 @@ def main():
             menu_h, p1_h, net = drive_to_net(client, out, proc, "rt", note)
             scene_ok = True
             check("scene_entry_loads_gameplay", scene_ok,
-                  "bright net scene + running + cart PC + advancing frames",
-                  f"luma={net['luma']:.1f} run={net['run']} pc={net['pc']} "
+                  "bright gameplay scene + running + cart PC + advancing frames",
+                  f"luma={net['luma']:.1f} run={net['run']} pcs={net['pcs']} "
+                  f"cart_hits={net['cart_hits']} "
                   f"frames={net['f0']}->{net['f1']}")
             note(f"P1 net area: {p1_h[:12]} menu: {menu_h[:12]}")
 
@@ -593,11 +599,22 @@ def main():
             res["failure"] = f"{type(e).__name__}: {e}"
             note(f"FAILED: {res['failure']}")
         finally:
+            # Patient quit on ALL paths: park first (no new misses), let the
+            # background worker drain, then quit and wait out the join.
+            # A mid-storm quit can otherwise wedge the worker join past the
+            # exit wait and force a kill (observed). All bounded.
+            try:
+                if proc.poll() is None:
+                    try:
+                        client.ensure_parked(timeout_s=60.0)
+                    except Exception as e:
+                        note(f"park before quit failed: {e}")
+                    wait_worker_drained(client, proc, note, cap_s=240.0)
+            except Exception as e:
+                note(f"drain before quit failed: {e}")
             if client is not None:
                 client.close()
-            # Patient graceful quit: the worker join waits out an in-flight
-            # gcc compile. Bounded by the remaining budget (cap 300s).
-            wait_s = max(10.0, min(300.0, budget_left()))
+            wait_s = max(10.0, min(420.0, budget_left()))
             t_end = time.monotonic() + wait_s
             while time.monotonic() < t_end:
                 code = proc.poll()
