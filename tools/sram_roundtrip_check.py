@@ -166,6 +166,19 @@ def main():
             pre_shot = client1.shot(out / "p1-pre-save.ppm")
             note(f"pre-save file={pre_hash[:16]} scroll={pre_scroll[:16]} "
                  f"shot={pre_shot[:12]}")
+            # Make a gameplay change first: S12 proved a bare save rewrites
+            # byte-identical SRAM (state == file, nothing to persist). Walk
+            # DOWN toward the witnessed area transition (movediag: net floor
+            # -> Lan's room + story dialog), which should dirty save-RAM so
+            # the later Save has bytes to persist.
+            client1.call(cmd="set_keyinput", value=DOWN)
+            time.sleep(4.0)
+            client1.call(cmd="set_keyinput", value=RELEASED)
+            time.sleep(1.0)
+            walk_shot = client1.shot(out / "p1-post-walk.ppm")
+            walk_scroll = client1.scroll()
+            note(f"post-walk shot={walk_shot[:12]} "
+                 f"scroll={pre_scroll[:16]}->{walk_scroll[:16]}")
 
             # Closed-loop row sweep (S1-S5 showed blind DOWN-counting never
             # lands Save: cursor state carries across attempts; S6 showed the
@@ -291,6 +304,19 @@ def main():
                             time.sleep(3.0)
                             confirmed += 1
                             h = file_hash(test_sav)
+                        # The SRAM write can flush seconds after the game's
+                        # completion message (witnessed S12 attempt 6: message
+                        # shown, file unchanged at first read, mtime updated
+                        # minutes later). Poll for the change before judging.
+                        if h == pre_hash and confirmed > 0:
+                            t_end = time.monotonic() + 30.0
+                            while time.monotonic() < t_end:
+                                time.sleep(2.0)
+                                h = file_hash(test_sav)
+                                if h != pre_hash:
+                                    note(f"attempt {attempt}: save flushed "
+                                         f"late: {h[:16]}")
+                                    break
                         time.sleep(1.0)
                         h = file_hash(test_sav)
                         shot = client1.shot(
