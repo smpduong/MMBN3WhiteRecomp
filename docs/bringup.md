@@ -237,6 +237,16 @@ Next: rerun title/menu capture, verify real save/restart/load on a disposable
 copy, and confirm sprite fades and final audio latency in live play.
 Changes remain uncommitted for review.
 
+## R22 — net-floor choppiness = heal churn; preload dominates boot (2026-09-07)
+User session logged 542 fresh misses (net areas); merged 464 new (skipped 0,
+no dupes; held 0x7AE0 with the sourceless stack class). Corpus 4096->6259.
+If replayed floors are smooth, it was gcc churn; if still choppy when warm,
+next suspect is affine/HBlank floor path (judge after warm replay).
+Boot-time finding: heal-cache preload took 141s (3131 entries) before the
+window opened — this, not the BIOS intro, dominates cold boot and grows with
+the corpus. Warm-load bypass exists only as uncommitted Codex env work;
+proper fix is faster preload (engine perf), not bypass (would re-storm).
+
 ## Historical backend status before playtesting (superseded by R18–R21)
 
 The following list records the earlier state only. R18 established that
