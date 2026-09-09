@@ -262,11 +262,14 @@ def main():
         res["interval_ms"] = None
 
     under = [int(x) for x in re.findall(r"bridge_underrun=(\d+)", text)]
-    over = [int(x) for x in re.findall(r"bridge_overflow=(\d+)", text)]
+    over = [int(x) for x in re.findall(r"overflow_drops=(\d+)", text)]
     fills = [float(x) for x in re.findall(r"fill_ms=([\d.]+)", text)]
     res["audio_counters"] = {
         "underrun_last": under[-1] if under else None,
+        "underrun_first": under[0] if under else None,
         "overflow_last": over[-1] if over else None,
+        "overflow_first": over[0] if over else None,
+        "overflow_grew": (over[-1] > over[0]) if len(over) >= 2 else None,
         "fill_ms_max": max(fills) if fills else None,
         "fill_ms_median": (round(statistics.median(fills), 2)
                            if fills else None)}
