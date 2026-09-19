@@ -62,6 +62,12 @@ SDL/device processing and do not measure physical button-to-sound latency.
 ## Reliability improvements
 
 - Engine pin: `577846ce7755c428c50777468a9f63c8631e4b58`.
+- A fresh GitHub clone of game `7f304a8`, using the published setup script
+  and pinned engine, regenerated BIOS/game code and built successfully. Its
+  independent engine suite passed 31/31 tests. A 300-frame headless strict
+  boot exited 0 with zero dispatch misses, interpreted instructions, or healed
+  targets. This is boot-only evidence, not strict gameplay coverage. Local
+  setup, test, and strict-boot logs are retained in `build/audio-review/clean-*`.
 - Engine regression suite: 31/31 tests passed; continuity tests also passed
   AddressSanitizer and UndefinedBehaviorSanitizer.
 - Existing Python parser tests: 5/5 passed.
