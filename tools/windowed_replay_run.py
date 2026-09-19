@@ -410,7 +410,10 @@ def main():
         jumps = [(a, b) for (a, _), (b, _) in
                  zip(apply_rows, apply_rows[1:]) if b < a]
         res["apply_backward_jumps"] = len(jumps)
-        check("restore_crosses_checked", True, "informational",
+        actions = [tok.split(":")[1] for tok in args.assist.split(";") if tok]
+        expected_jumps = sum(action in ("load1", "rewind") for action in actions)
+        check("restore_crosses_checked", len(jumps) >= expected_jumps,
+              f"at least {expected_jumps} requested backward restores observed",
               f"{len(jumps)} backward frame jumps in apply log; all rows "
               f"asserted above, including post-restore rows")
 
@@ -467,9 +470,14 @@ def main():
     # ---- audio (buffering continuity only; never latency claims)
     under = [int(x) for x in re.findall(r"bridge_underrun=(\d+)", text)]
     over = [int(x) for x in re.findall(r"overflow_drops=(\d+)", text)]
+    concealed = [int(x) for x in re.findall(r"stretch=\d+ms\(ev=(\d+)\)", text)]
     fills = [float(x) for x in re.findall(r"fill_ms=([\d.]+)", text)]
     pushes = re.findall(r"audio_push_ns=(\d+)", text)
     res["audio_counters"] = {
+        "concealment_events_first": concealed[0] if concealed else None,
+        "concealment_events_last": concealed[-1] if concealed else None,
+        "concealment_grew": (concealed[-1] > concealed[0]) if len(concealed) >= 2 else None,
+        "note": "bridge_underrun is unfilled output frames, not episodes; concealed shortages also matter",
         "underrun_first": under[0] if under else None,
         "underrun_last": under[-1] if under else None,
         "underrun_grew": (under[-1] > under[0]) if len(under) >= 2 else None,

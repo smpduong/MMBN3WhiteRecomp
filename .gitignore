@@ -20,6 +20,8 @@ saves/
 *.dll
 *.pdb
 *.log
+*.wav
+*.mp4
 *.bmp
 *.png
 *.csv

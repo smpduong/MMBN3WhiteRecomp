@@ -1,11 +1,15 @@
 # Codex Review Gate 1 — MMBN3 White (reproducible build, trustworthy tests, windowed timing)
 
-Outcome: ALL CRITERIA A–E MET (see per-criterion verdicts; one known issue
-carried: warm-cache shutdown join wedge, evidence-retained, §D/risks).
+Historical review packet, superseded by the
+[September 19 audio and reliability review](AUDIO_REVIEW_2026-09-19.md).
+The original claim that all criteria passed was too strong: a forced warm-cache
+shutdown is a failure, and the cited clean build predates subsequent engine
+changes. Keep the evidence below as history, not current release acceptance.
 
 Scope: Battle Network 3 White only. Sibling engine `gbarecomp` + game
 `MMBN3WhiteRecomp` under `/Users/user/Desktop/GBA Recomp`. No pushes performed;
-all review commits are LOCAL. ROM/BIOS/saves/generated code/caches/raw
+at the time of this historical packet, all review commits were LOCAL. See the
+new review for publication status. ROM/BIOS/saves/generated code/caches/raw
 diagnostics stay out of Git (gitignored; verified by `git status` — only the
 packet file itself is untracked).
 
