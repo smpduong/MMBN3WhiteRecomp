@@ -10278,3 +10278,36 @@ note = "R15: proposed from self-heal miss-log; bridged x68; part of a JUMP-TABLE
 addr = 0x080F13C6
 mode = "thumb"
 note = "R15: proposed from self-heal miss-log; bridged x198"
+
+# R16 (2026-09-24 audit): four hot IWRAM dispatch PCs from the 8500-frame
+# recorded route (each bridged ~8000x, never healed: RAM-overlay healing is
+# opt-in/off by default and the failure was silent before the engine
+# once-per-PC diagnostic). Each decodes at its exact ROM-mapped address
+# (mixer code_copy span 03005E00 <- 08235F00, size 0x17AC) as a standalone
+# PUSH-prologue function ending in pop {pc} (03006F54 contains an internal
+# bl to 082370F8), preceded by a function exit + padding, and lies in a gap
+# between existing generated functions
+# (6E76 end 6E7A / 6EE0...; 6F4A end 6F4E / 7020...), so plain roots per the
+# 03005F8C/03005F30 precedent — NOT resume=true (no enclosing body) and NOT
+# a jump table (isolated, 0x20-0xA4 apart, no switch evidence). Held out:
+# 0x03007AF0/0x03007B44 remain sourceless (stack-synthesized class).
+
+[[extra_func]]
+addr = 0x03006EB0
+mode = "thumb"
+note = "R16: mixer-span leaf (ROM 08236FB0 push {lr}..pop {pc}); bridged x8265 on recorded route"
+
+[[extra_func]]
+addr = 0x03006F54
+mode = "thumb"
+note = "R16: mixer-span function (ROM 08237054 push {lr}, internal call to 082370F8); bridged x7939 on recorded route"
+
+[[extra_func]]
+addr = 0x03006FE8
+mode = "thumb"
+note = "R16: mixer-span leaf (ROM 082370E8 push {lr}..pop {pc}); bridged x8265 on recorded route"
+
+[[extra_func]]
+addr = 0x03007008
+mode = "thumb"
+note = "R16: mixer-span leaf (ROM 08237108 push {lr}..pop {pc}); bridged x7939 on recorded route"

@@ -4,12 +4,15 @@ Static recompilation of **Mega Man Battle Network 3 White** (GBA) to native PC,
 built on [`gbarecomp`](https://github.com/smpduong/gbarecomp) (fork of
 `mstan/gbarecomp`, PolyForm Noncommercial 1.0.0).
 
-> Status: experimental, with exploration and early combat exercised in recorded
-> playtests. Boot/title have passed strict static checks, but gameplay still
-> uses interpreter fallback and runtime compilation. This is not a completed
-> game port or a claim of full static coverage. The
-> [September 19 review](docs/AUDIO_REVIEW_2026-09-19.md) records audio fixes,
-> acceptance evidence, and remaining work.
+> Status (September 27, 2026): experimental. An 8,500-frame recorded route
+> exercised exploration and combat, and host-audio replay tests support the
+> bridge fixes. Boot/title passed strict static checks, but gameplay still
+> needs interpreter fallback and runtime compilation. Save/load audio and
+> device timing are not yet equivalent; measured macOS host stalls have an
+> opt-in mitigation, not a proven full-game audio cure. This is not a completed
+> port or a claim of full static coverage. See the
+> [audio and reliability review](docs/AUDIO_REVIEW_2026-09-19.md) for evidence
+> and remaining work.
 
 This is not a decompilation or source port. No ROM, BIOS, save, or generated
 ROM-derived source is included.
